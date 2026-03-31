@@ -304,13 +304,54 @@ def carregar_motor_estatistico():
 
 df_audit, df_mercado = carregar_motor_estatistico()
 
+AFFILIATE_MONETARY_DIVISOR = 10000.0
+AFFILIATE_MONETARY_COLUMNS = [
+    "Net Revenue",
+    "Revenue Share Reward",
+    "CPA Reward",
+    "FIXED FEE",
+    "Total Reward"
+]
+
 # ==============================================================================
 # 2.1 MOTOR ETL (MICRO): PROCESSADOR DE DADOS DE AFILIADOS JANEIRO (NOVO MÓDULO)
 # ==============================================================================
 
 @st.cache_data(show_spinner="PROCESSANDO MATRIZ DE AFILIADOS...")
 def carregar_motor_afiliados():
-    raw_affiliates_data = [
+    raw_affiliates_janeiro = [
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654570", "Affiliate Name": "Moveup Media Brasil ltda", "FTD": 96, "Net Revenue": 1216105.228, "Revenue Share Reward": 364828.60, "CPA Reward": 111600.00, "FIXED FEE": 0.0, "Total Reward": 476428.60},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654495", "Affiliate Name": "YGA Ventures Ltd", "FTD": 399, "Net Revenue": 3218195.711, "Revenue Share Reward": 1609097.90, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 1609097.90},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654514", "Affiliate Name": "North Star Network", "FTD": 271, "Net Revenue": 1900693.19, "Revenue Share Reward": 665242.60, "CPA Reward": 0.0, "FIXED FEE": 1334757.40, "Total Reward": 2000000.00},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654634", "Affiliate Name": "Influx Online", "FTD": 27, "Net Revenue": 806765.384, "Revenue Share Reward": 242026.60, "CPA Reward": 43200.00, "FIXED FEE": 0.0, "Total Reward": 285226.60},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654429", "Affiliate Name": "GNY / Streamer", "FTD": 34, "Net Revenue": 966416.935, "Revenue Share Reward": 289925.10, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 289925.10},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654430", "Affiliate Name": "Xioguto / Streamer", "FTD": 2, "Net Revenue": 359376.354, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654487", "Affiliate Name": "Armoni Solucoes e Intermediacoes em Negocios Web", "FTD": 6, "Net Revenue": 830025.384, "Revenue Share Reward": 249007.60, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 249007.60},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654476", "Affiliate Name": "Markola", "FTD": 19, "Net Revenue": 539155.799, "Revenue Share Reward": 161743.70, "CPA Reward": 40800.00, "FIXED FEE": 0.0, "Total Reward": 202543.70},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654553", "Affiliate Name": "EMPREENDEDOR VISIONARIO TREINAMENTOS EIRELI ME", "FTD": 27, "Net Revenue": 521595.296, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 600000.00, "Total Reward": 600000.00},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654604", "Affiliate Name": "League of Entertainment", "FTD": 42, "Net Revenue": 764335.562, "Revenue Share Reward": 229300.70, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 229300.70},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654825", "Affiliate Name": "Playhill Brasil Ltda", "FTD": 13, "Net Revenue": -37141.224, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654828", "Affiliate Name": "Talking & Gaming", "FTD": 19, "Net Revenue": 443151.076, "Revenue Share Reward": 132942.30, "CPA Reward": 12000.00, "FIXED FEE": 0.0, "Total Reward": 144942.30},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654649", "Affiliate Name": "abratabaca", "FTD": 273, "Net Revenue": -259292.988, "Revenue Share Reward": 0.0, "CPA Reward": 199200.00, "FIXED FEE": 0.0, "Total Reward": 199200.00},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654503", "Affiliate Name": "souograndi", "FTD": 7, "Net Revenue": 247665.185, "Revenue Share Reward": 12383.30, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 12383.30},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654547", "Affiliate Name": "nokainlive", "FTD": 3, "Net Revenue": 46999.613, "Revenue Share Reward": 14096.90, "CPA Reward": 3600.00, "FIXED FEE": 0.0, "Total Reward": 17696.90},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654433", "Affiliate Name": "Binao", "FTD": 54, "Net Revenue": 116458.959, "Revenue Share Reward": 29112.20, "CPA Reward": 32400.00, "FIXED FEE": 0.0, "Total Reward": 61512.20},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654446", "Affiliate Name": "FABINHO AEP PRODUCAO DE VIDEOS LTDA", "FTD": 15, "Net Revenue": 366722.089, "Revenue Share Reward": 36672.20, "CPA Reward": 0.0, "FIXED FEE": 203327.80, "Total Reward": 240000.00},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654614", "Affiliate Name": "Bieldomaul", "FTD": 0, "Net Revenue": 52.0308, "Revenue Share Reward": 12.76, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 12.76},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654691", "Affiliate Name": "afiliado@betpass.me", "FTD": 29, "Net Revenue": -3237.959, "Revenue Share Reward": 0.0, "CPA Reward": 2340.00, "FIXED FEE": 0.0, "Total Reward": 2340.00},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654440", "Affiliate Name": "FURIAGAMES", "FTD": 41, "Net Revenue": -151890.6761, "Revenue Share Reward": 4773.90, "CPA Reward": 2880.00, "FIXED FEE": 0.0, "Total Reward": 3357.39},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654546", "Affiliate Name": "Pay Instituicao de Pagamento S/A", "FTD": 5, "Net Revenue": -223512.10, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654543", "Affiliate Name": "Ninjabet", "FTD": 2, "Net Revenue": -54409.789, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654544", "Affiliate Name": "Klauslol", "FTD": 14, "Net Revenue": 22720.984, "Revenue Share Reward": 7948.80, "CPA Reward": 21600.00, "FIXED FEE": 0.0, "Total Reward": 29548.80},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "655459", "Affiliate Name": "Partners", "FTD": 0, "Net Revenue": 0.0, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "655266", "Affiliate Name": "VOLTZ AFFILIATES BR", "FTD": 1, "Net Revenue": -250.85, "Revenue Share Reward": 0.0, "CPA Reward": 1800.00, "FIXED FEE": 0.0, "Total Reward": 1800.00},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "655372", "Affiliate Name": "Cassius Ogro", "FTD": 1, "Net Revenue": 2387.573, "Revenue Share Reward": 594.40, "CPA Reward": 1200.00, "FIXED FEE": 0.0, "Total Reward": 1794.40},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654824", "Affiliate Name": "OC GROUP TECNOLOGIA DA INFORMACAO LTDA", "FTD": 15, "Net Revenue": 25821.173, "Revenue Share Reward": 7743.40, "CPA Reward": 12000.00, "FIXED FEE": 0.0, "Total Reward": 19743.40},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654830", "Affiliate Name": "pichucas", "FTD": 3, "Net Revenue": 107214.406, "Revenue Share Reward": 26801.10, "CPA Reward": 9000.00, "FIXED FEE": 0.0, "Total Reward": 35801.10},
+        {"Periodo": "Janeiro/26", "Affiliate ID": "654551", "Affiliate Name": "Carlos Figueira MMA", "FTD": 53, "Net Revenue": 83077.796, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 50000.00, "Total Reward": 50000.00}
+    ]
+
+    raw_affiliates_fevereiro = [
         {"Affiliate ID": "654487", "Affiliate Name": "Armoni Solucoes", "FTD": 1, "Net Revenue": 64401437.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 64401437.00, "Total Reward": 64401437.00},
         {"Affiliate ID": "654433", "Affiliate Name": "Binao", "FTD": 17, "Net Revenue": 50379641.00, "Revenue Share Reward": 12592410.00, "CPA Reward": 12000000.00, "FIXED FEE": 0.0, "Total Reward": 24592410.00},
         {"Affiliate ID": "654518", "Affiliate Name": "Click Hunters", "FTD": 4, "Net Revenue": 14473912.00, "Revenue Share Reward": 3615978.00, "CPA Reward": 4800000.00, "FIXED FEE": 0.0, "Total Reward": 8415978.00},
@@ -372,9 +413,72 @@ def carregar_motor_afiliados():
         {"Affiliate ID": "654529", "Affiliate Name": "BetinGamer", "FTD": 3, "Net Revenue": -41813000.00, "Revenue Share Reward": 0.0, "CPA Reward": 3600000.00, "FIXED FEE": 0.0, "Total Reward": 3600000.00},
         {"Affiliate ID": "654530", "Affiliate Name": "kmarguin Qashback", "FTD": 0, "Net Revenue": 117817624.00, "Revenue Share Reward": 23563525.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 23563525.00}
     ]
-    df_aff = pd.DataFrame(raw_affiliates_data)
-    for col in ["Net Revenue", "Revenue Share Reward", "CPA Reward", "FIXED FEE", "Total Reward"]:
-        df_aff[col] = df_aff[col] / 10000.0
+
+    raw_affiliates_marco = [
+        {"Affiliate ID": "654429", "Affiliate Name": "GNY / Streamer", "FTD": 20, "Net Revenue": 942222354.00, "Revenue Share Reward": 281977224.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 281977224.00},
+        {"Affiliate ID": "654495", "Affiliate Name": "YGA Ventures Ltd", "FTD": 374, "Net Revenue": 1277177484.00, "Revenue Share Reward": 637511608.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 637511608.00},
+        {"Affiliate ID": "654553", "Affiliate Name": "EMPREENDEDOR VISIONARIO TREINAMENTOS EIRELI ME", "FTD": 40, "Net Revenue": 583741711.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 600000000.00, "Total Reward": 600000000.00},
+        {"Affiliate ID": "654570", "Affiliate Name": "Moveup Media Brasil ltda", "FTD": 48, "Net Revenue": 462754505.00, "Revenue Share Reward": 138823862.00, "CPA Reward": 54000000.00, "FIXED FEE": 0.0, "Total Reward": 192823862.00},
+        {"Affiliate ID": "654476", "Affiliate Name": "Markola", "FTD": 9, "Net Revenue": 404048847.00, "Revenue Share Reward": 120297439.00, "CPA Reward": 12000000.00, "FIXED FEE": 0.0, "Total Reward": 132297439.00},
+        {"Affiliate ID": "654825", "Affiliate Name": "Playhill Brasil Ltda", "FTD": 7, "Net Revenue": 216696486.00, "Revenue Share Reward": 65008946.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 65008946.00},
+        {"Affiliate ID": "654859", "Affiliate Name": "SonnyNg", "FTD": 3, "Net Revenue": 202104726.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Affiliate ID": "654440", "Affiliate Name": "FURIAGAMES", "FTD": 8, "Net Revenue": 455464809.00, "Revenue Share Reward": 136642839.00, "CPA Reward": 6000000.00, "FIXED FEE": 0.0, "Total Reward": 142642839.00},
+        {"Affiliate ID": "655034", "Affiliate Name": "TODOS JUNTOS SAS", "FTD": 60, "Net Revenue": 390258451.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Affiliate ID": "654508", "Affiliate Name": "Bigxrdm", "FTD": 7, "Net Revenue": 167049186.00, "Revenue Share Reward": 33409837.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 33409837.00},
+        {"Affiliate ID": "654514", "Affiliate Name": "North Star Network", "FTD": 214, "Net Revenue": -540879195.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Affiliate ID": "654447", "Affiliate Name": "Psouza7", "FTD": 13, "Net Revenue": 161198186.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Affiliate ID": "654621", "Affiliate Name": "Cartolouco", "FTD": 11, "Net Revenue": -100988927.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Affiliate ID": "654613", "Affiliate Name": "Skores", "FTD": 1, "Net Revenue": 587493231.00, "Revenue Share Reward": 176247969.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 176247969.00},
+        {"Affiliate ID": "654604", "Affiliate Name": "League of Entertainment", "FTD": 29, "Net Revenue": 107550358.00, "Revenue Share Reward": 32265107.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 32265107.00},
+        {"Affiliate ID": "655520", "Affiliate Name": "Arena Afiliados LTDA", "FTD": 845, "Net Revenue": 33152938.00, "Revenue Share Reward": 11600028.00, "CPA Reward": 1095000000.00, "FIXED FEE": 0.0, "Total Reward": 1106600028.00},
+        {"Affiliate ID": "655516", "Affiliate Name": "Dk Company", "FTD": 812, "Net Revenue": 47086452.00, "Revenue Share Reward": 14122936.00, "CPA Reward": 112500000.00, "FIXED FEE": 0.0, "Total Reward": 126622936.00},
+        {"Affiliate ID": "655522", "Affiliate Name": "BlackBox", "FTD": 215, "Net Revenue": 13248264.00, "Revenue Share Reward": 3974479.00, "CPA Reward": 144000000.00, "FIXED FEE": 0.0, "Total Reward": 147974479.00},
+        {"Affiliate ID": "654433", "Affiliate Name": "Binao", "FTD": 28, "Net Revenue": 59365972.00, "Revenue Share Reward": 14838993.00, "CPA Reward": 22800000.00, "FIXED FEE": 0.0, "Total Reward": 37638993.00},
+        {"Affiliate ID": "655459", "Affiliate Name": "Partners", "FTD": 120, "Net Revenue": 12168979.00, "Revenue Share Reward": 3647694.00, "CPA Reward": 140400000.00, "FIXED FEE": 0.0, "Total Reward": 144047694.00},
+        {"Affiliate ID": "654691", "Affiliate Name": "afiliado@betpass.me", "FTD": 52, "Net Revenue": 573310.00, "Revenue Share Reward": 140828.00, "CPA Reward": 66600000.00, "FIXED FEE": 0.0, "Total Reward": 66740828.00},
+        {"Affiliate ID": "654649", "Affiliate Name": "abratabaca", "FTD": 244, "Net Revenue": 135875981.00, "Revenue Share Reward": 33966495.00, "CPA Reward": 178800000.00, "FIXED FEE": 0.0, "Total Reward": 212766495.00},
+        {"Affiliate ID": "654825", "Affiliate Name": "Playhill Brasil Ltda SEO", "FTD": 0, "Net Revenue": 722200.00, "Revenue Share Reward": 216660.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 216660.00},
+        {"Affiliate ID": "654936", "Affiliate Name": "PremiaBet", "FTD": 131, "Net Revenue": 23442990.00, "Revenue Share Reward": 7029897.00, "CPA Reward": 153000000.00, "FIXED FEE": 0.0, "Total Reward": 160029897.00},
+        {"Affiliate ID": "654824", "Affiliate Name": "OC GROUP TECNOLOGIA DA INFORMACAO LTDA", "FTD": 6, "Net Revenue": -66671369.00, "Revenue Share Reward": 0.0, "CPA Reward": 8400000.00, "FIXED FEE": 0.0, "Total Reward": 8400000.00},
+        {"Affiliate ID": "654828", "Affiliate Name": "Talking & Gaming", "FTD": 11, "Net Revenue": 42410387.00, "Revenue Share Reward": 18421105.00, "CPA Reward": 3600000.00, "FIXED FEE": 0.0, "Total Reward": 22021105.00},
+        {"Affiliate ID": "654830", "Affiliate Name": "pichucas", "FTD": 0, "Net Revenue": 31317820.00, "Revenue Share Reward": 7826955.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 7826955.00},
+        {"Affiliate ID": "654446", "Affiliate Name": "FABINHO AEP PRODUCAO DE VIDEOS LTDA", "FTD": 5, "Net Revenue": -23321498.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 240000000.00, "Total Reward": 240000000.00},
+        {"Affiliate ID": "654488", "Affiliate Name": "GUEDES TIPS LTDA", "FTD": 191, "Net Revenue": 126931790.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 900000000.00, "Total Reward": 900000000.00},
+        {"Affiliate ID": "655466", "Affiliate Name": "Ferrer", "FTD": 0, "Net Revenue": 0.0, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 350000000.00, "Total Reward": 350000000.00},
+        {"Affiliate ID": "655314", "Affiliate Name": "SpiderKong", "FTD": 0, "Net Revenue": -0.1700, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 160000000.00, "Total Reward": 160000000.00},
+        {"Affiliate ID": "654551", "Affiliate Name": "Carlos Figueira MMA", "FTD": 16, "Net Revenue": -40732220.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 50000000.00, "Total Reward": 50000000.00},
+        {"Affiliate ID": "654478", "Affiliate Name": "Coutinho", "FTD": 27, "Net Revenue": -32480141.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Affiliate ID": "654792", "Affiliate Name": "Daniel Fortune", "FTD": 6, "Net Revenue": -26976777.00, "Revenue Share Reward": 0.0, "CPA Reward": 10800000.00, "FIXED FEE": 0.0, "Total Reward": 10800000.00},
+        {"Affiliate ID": "654634", "Affiliate Name": "Influx Online", "FTD": 17, "Net Revenue": -128027320.00, "Revenue Share Reward": 0.0, "CPA Reward": 25200000.00, "FIXED FEE": 0.0, "Total Reward": 25200000.00},
+        {"Affiliate ID": "655182", "Affiliate Name": "Clean Monster", "FTD": 3, "Net Revenue": -1385547.00, "Revenue Share Reward": 0.0, "CPA Reward": 3600000.00, "FIXED FEE": 0.0, "Total Reward": 3600000.00},
+        {"Affiliate ID": "655121", "Affiliate Name": "nbr050", "FTD": 61, "Net Revenue": 71745374.00, "Revenue Share Reward": 21520612.00, "CPA Reward": 57600000.00, "FIXED FEE": 0.0, "Total Reward": 79120612.00},
+        {"Affiliate ID": "654469", "Affiliate Name": "OC GROUP", "FTD": 4, "Net Revenue": 2847777.00, "Revenue Share Reward": 993222.00, "CPA Reward": 2400000.00, "FIXED FEE": 0.0, "Total Reward": 3393222.00},
+        {"Affiliate ID": "654470", "Affiliate Name": "Marciomvt", "FTD": 1, "Net Revenue": 71703317.00, "Revenue Share Reward": 21507995.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 21507995.00},
+        {"Affiliate ID": "654502", "Affiliate Name": "cicero kardeck rocha de lima/KROCHA", "FTD": 22, "Net Revenue": 167568924.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 300000000.00, "Total Reward": 300000000.00},
+        {"Affiliate ID": "654503", "Affiliate Name": "souograndi", "FTD": 5, "Net Revenue": 11700331.00, "Revenue Share Reward": 585017.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 585017.00},
+        {"Affiliate ID": "654504", "Affiliate Name": "Playhill Brasil Ltda MB", "FTD": 6, "Net Revenue": 135461192.00, "Revenue Share Reward": 40396303.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 40396303.00},
+        {"Affiliate ID": "654515", "Affiliate Name": "Pay Instituição de Pagamento S/A", "FTD": 1, "Net Revenue": 61585758.00, "Revenue Share Reward": 18475727.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 18475727.00},
+        {"Affiliate ID": "654546", "Affiliate Name": "Pay Instituição de Pagamento S/A 1", "FTD": 6, "Net Revenue": 51413716.00, "Revenue Share Reward": 15313314.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 15313314.00},
+        {"Affiliate ID": "654567", "Affiliate Name": "GRP Publicidade Digital Ltda", "FTD": 26, "Net Revenue": 92779717.00, "Revenue Share Reward": 27833915.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 27833915.00},
+        {"Affiliate ID": "654568", "Affiliate Name": "Izabellaflu", "FTD": 0, "Net Revenue": 43132420.00, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Affiliate ID": "654454", "Affiliate Name": "Diretasso", "FTD": 11, "Net Revenue": 126898387.00, "Revenue Share Reward": 25368743.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 25368743.00},
+        {"Affiliate ID": "654456", "Affiliate Name": "Gusttawin", "FTD": 1, "Net Revenue": 46126219.00, "Revenue Share Reward": 4612622.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 4612622.00},
+        {"Affiliate ID": "654459", "Affiliate Name": "Better Collective Brazil Ltda BCCPH22BR", "FTD": 46, "Net Revenue": 58687732.00, "Revenue Share Reward": 27117643.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 27117643.00}
+    ]
+
+    for row in raw_affiliates_fevereiro:
+        row["Periodo"] = "Fevereiro/26"
+    for row in raw_affiliates_marco:
+        row["Periodo"] = "Março/26"
+
+    df_aff = pd.DataFrame(raw_affiliates_janeiro + raw_affiliates_fevereiro + raw_affiliates_marco)
+
+    # Corrige as bases brutas que vieram multiplicadas por 10.000.
+    mask_bruto = df_aff["Periodo"].isin(["Fevereiro/26", "Março/26"])
+    for col in AFFILIATE_MONETARY_COLUMNS:
+        df_aff[col] = pd.to_numeric(df_aff[col], errors="coerce").fillna(0)
+        df_aff.loc[mask_bruto, col] = df_aff.loc[mask_bruto, col] / AFFILIATE_MONETARY_DIVISOR
+
     return df_aff
 
 df_afiliados = carregar_motor_afiliados()
@@ -386,7 +490,7 @@ if df_audit is not None and not df_audit.empty:
     
     col_h1, col_h2 = st.columns([3, 1])
     with col_h1:
-        st.title("🏦 STRATEGIC FINANCE COMMAND CENTER")
+        st.title("🏦 FINANCE ANALYSIS")
         st.markdown(f"**Confidencial | Data da Extração:** {datetime.datetime.now().strftime('%d/%m/%Y')} | **Status:** Ciclo FEV/25 - MAR/26")
     with col_h2:
         st.markdown("""
@@ -667,22 +771,51 @@ if df_audit is not None and not df_audit.empty:
     elif menu == "9. Anomaly & Fraud Detection Engine":
         st.markdown("<h2 class='section-title'>9. Monitoramento de Anomalias Estatísticas</h2>", unsafe_allow_html=True)
         df_audit['Z_Score_Bonus'] = (df_audit['BonusCost'] - df_audit['BonusCost'].mean()) / df_audit['BonusCost'].std()
+        df_audit['Z_Score_FTD'] = (df_audit['FirstDepositsAmount'] - df_audit['FirstDepositsAmount'].mean()) / df_audit['FirstDepositsAmount'].std()
+        df_audit['Z_Score_NGR'] = (df_audit['NGR'] - df_audit['NGR'].mean()) / df_audit['NGR'].std()
         
         fig_anom = px.scatter(df_audit, x='Periodo', y='BonusCost', color='Z_Score_Bonus', size='Ggr',
                              title="Audit Trail: Detecção de Over-Bonification",
                              color_continuous_scale=px.colors.diverging.RdYlGn_r)
         st.plotly_chart(aplicar_template_financeiro(fig_anom), use_container_width=True)
+
+        meses_criticos_bonus = df_audit[df_audit['Z_Score_Bonus'].abs() > 1.5][['Periodo', 'BonusCost', 'Bonus_Ratio', 'Z_Score_Bonus']].copy()
+        meses_criticos_bonus = meses_criticos_bonus.sort_values(by='Z_Score_Bonus', ascending=False)
+
+        c_a1, c_a2, c_a3 = st.columns(3)
+        c_a1.metric("Picos de Bônus", f"{(df_audit['Z_Score_Bonus'] > 1.5).sum():,.0f}")
+        c_a2.metric("Quedas de FTD", f"{(df_audit['Z_Score_FTD'] < -1.0).sum():,.0f}")
+        c_a3.metric("Meses com NGR Atípico", f"{(df_audit['Z_Score_NGR'].abs() > 1.0).sum():,.0f}")
+
+        if not meses_criticos_bonus.empty:
+            st.markdown("### 🔎 Meses Prioritários para Auditoria")
+            st.dataframe(
+                meses_criticos_bonus.style.format({
+                    "BonusCost": "R$ {:,.2f}",
+                    "Bonus_Ratio": "{:,.2f}%",
+                    "Z_Score_Bonus": "{:,.2f}"
+                }),
+                use_container_width=True
+            )
         
         st.markdown("""
         <div class='consultant-report'>
         <b>AUDITORIA FORENSE:</b><br>
-        Meses com Z-Score acima de 1.5 indicam que a distribuição de bônus fugiu ao controle estatístico do modelo matemático. 
-        Estes períodos devem ser auditados pelo time de risco para identificar abusadores de bônus (Bonus Abusers).
+        Esta seção aponta meses em que bônus, captação de capital novo e receita líquida saíram da faixa estatística esperada.<br><br>
+        <b>Como interpretar:</b><br>
+        • <b>Z-Score de Bônus alto:</b> evidencia excesso promocional e risco de compra artificial de volume.<br>
+        • <b>Z-Score de FTD muito baixo:</b> mostra retração de capital novo e aumento da dependência de reciclagem da base antiga.<br>
+        • <b>Z-Score de NGR fora do padrão:</b> indica distorção relevante de margem líquida, positiva ou negativa.<br><br>
+        <b>Encaminhamento gerencial:</b><br>
+        • auditar origem do tráfego e campanhas do período;<br>
+        • revisar se o bônus foi direcionado para retenção saudável ou para sustentar comportamento improdutivo;<br>
+        • comparar o mês anômalo com os pares anteriores e posteriores para medir recorrência;<br>
+        • validar com risco e CRM se houve abuso, cluster de jogadores oportunistas ou deterioração de cohort quality.
         </div>
         """, unsafe_allow_html=True)
 
     elif menu == "10. Affiliate Performance (Top/Bottom 20)":
-        st.markdown("<h2 class='section-title'>10. Módulo Forense de Afiliados (Ciclo Janeiro/2026)</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class='section-title'>10. Módulo Forense de Afiliados</h2>", unsafe_allow_html=True)
         st.markdown("""
         <div class='consultant-report'>
         <b>AUDITORIA DE PARCEIROS B2B:</b><br>
@@ -692,11 +825,23 @@ if df_audit is not None and not df_audit.empty:
         """, unsafe_allow_html=True)
 
         if not df_afiliados.empty:
-            df_sorted = df_afiliados.sort_values(by="Net Revenue", ascending=False)
+            periodos_afiliados = [str(p) for p in df_afiliados["Periodo"].dropna().unique().tolist()]
+            periodo_foco = st.selectbox("Selecione o período de afiliados:", periodos_afiliados, index=0)
+            df_periodo = df_afiliados[df_afiliados["Periodo"] == periodo_foco].copy()
+
+            st.markdown(
+                f"<div class='kpi-block'><div class='kpi-title'>Período em análise</div><div class='kpi-text'>Todas as tabelas e gráficos abaixo referem-se a <b>{periodo_foco}</b>.</div></div>",
+                unsafe_allow_html=True
+            )
+
+            df_sorted = df_periodo.sort_values(by="Net Revenue", ascending=False)
             top_20 = df_sorted.head(20).copy()
             bottom_20 = df_sorted.tail(20).sort_values(by="Net Revenue", ascending=True).copy()
+            top_20["NGR Afiliado"] = top_20["Net Revenue"]
+            bottom_20["NGR Afiliado"] = bottom_20["Net Revenue"]
 
             format_dict = {
+                "NGR Afiliado": "R$ {:,.2f}",
                 "Net Revenue": "R$ {:,.2f}",
                 "Revenue Share Reward": "R$ {:,.2f}",
                 "CPA Reward": "R$ {:,.2f}",
@@ -705,21 +850,85 @@ if df_audit is not None and not df_audit.empty:
             }
 
             # CORREÇÃO: Utilizando formatação nativa do Streamlit para evitar erros de ausência do Matplotlib
-            st.markdown("<h3 style='color:#10B981; margin-top:20px; font-weight:800;'>🏆 TOP 20 AFILIADOS (MAIOR RECEITA LÍQUIDA GERADA)</h3>", unsafe_allow_html=True)
+            st.markdown(f"<h3 style='color:#10B981; margin-top:20px; font-weight:800;'>🏆 TOP 20 AFILIADOS - {periodo_foco} (MAIOR RECEITA LÍQUIDA GERADA)</h3>", unsafe_allow_html=True)
             st.dataframe(top_20.style.format(format_dict), use_container_width=True)
 
-            st.markdown("<br><h3 style='color:#F43F5E; margin-top:20px; font-weight:800;'>⚠️ BOTTOM 20 AFILIADOS (PREJUÍZO OU BAIXA EFICIÊNCIA)</h3>", unsafe_allow_html=True)
+            st.markdown(f"<br><h3 style='color:#F43F5E; margin-top:20px; font-weight:800;'>⚠️ BOTTOM 20 AFILIADOS - {periodo_foco} (PREJUÍZO OU BAIXA EFICIÊNCIA)</h3>", unsafe_allow_html=True)
             st.dataframe(bottom_20.style.format(format_dict), use_container_width=True)
             
-            top_10 = top_20.head(10)
-            fig_aff = go.Figure()
-            fig_aff.add_trace(go.Bar(x=top_10['Affiliate Name'], y=top_10['CPA Reward'], name='CPA Reward (Custo)', marker_color='#F59E0B'))
-            fig_aff.add_trace(go.Bar(x=top_10['Affiliate Name'], y=top_10['Revenue Share Reward'], name='RevShare (Custo)', marker_color='#38BDF8'))
-            fig_aff.add_trace(go.Bar(x=top_10['Affiliate Name'], y=top_10['FIXED FEE'], name='FIXED FEE (Custo Adicional)', marker_color='#8B5CF6'))
-            
-            fig_aff.update_layout(barmode='stack')
-            fig_aff = aplicar_template_financeiro(fig_aff, "Análise de Custo de Aquisição (Top 10)")
-            st.plotly_chart(fig_aff, use_container_width=True)
+            st.markdown("<h3 style='color:#FFFFFF; margin-top:26px; font-weight:800;'>📈 NGR DOS AFILIADOS E CUSTO DE AQUISIÇÃO</h3>", unsafe_allow_html=True)
+
+            top_20_chart = top_20.sort_values(by="NGR Afiliado", ascending=False)
+            top_20_chart["Affiliate Label"] = top_20_chart["Affiliate Name"].astype(str).str.slice(0, 22)
+            fig_aff_top = go.Figure()
+            fig_aff_top.add_trace(go.Bar(
+                x=top_20_chart['Affiliate Label'],
+                y=top_20_chart['CPA Reward'],
+                name='CPA Reward (Custo)',
+                marker_color='#F59E0B',
+                hovertemplate='<b>%{x}</b><br>CPA: R$ %{y:,.2f}<extra></extra>'
+            ))
+            fig_aff_top.add_trace(go.Bar(
+                x=top_20_chart['Affiliate Label'],
+                y=top_20_chart['FIXED FEE'],
+                name='FIXED FEE (Custo Adicional)',
+                marker_color='#8B5CF6',
+                hovertemplate='<b>%{x}</b><br>FIXED FEE: R$ %{y:,.2f}<extra></extra>'
+            ))
+            fig_aff_top.add_trace(go.Scatter(
+                x=top_20_chart['Affiliate Label'],
+                y=top_20_chart['NGR Afiliado'],
+                name='NGR Afiliado',
+                mode='lines+markers',
+                marker=dict(color='#10B981', size=7),
+                line=dict(color='#10B981', width=3),
+                hovertemplate='<b>%{x}</b><br>NGR: R$ %{y:,.2f}<extra></extra>'
+            ))
+
+            fig_aff_top.update_layout(
+                barmode='stack',
+                height=560,
+                xaxis=dict(tickangle=-35, automargin=True, tickfont=dict(size=10)),
+                yaxis=dict(tickfont=dict(size=10))
+            )
+            fig_aff_top = aplicar_template_financeiro(fig_aff_top, f"Análise de Custo de Aquisição + NGR (Top 20) - {periodo_foco}")
+            st.plotly_chart(fig_aff_top, use_container_width=True)
+
+            bottom_20_chart = bottom_20.sort_values(by="NGR Afiliado", ascending=True)
+            bottom_20_chart["Affiliate Label"] = bottom_20_chart["Affiliate Name"].astype(str).str.slice(0, 22)
+            fig_aff_bottom = go.Figure()
+            fig_aff_bottom.add_trace(go.Bar(
+                x=bottom_20_chart['Affiliate Label'],
+                y=bottom_20_chart['CPA Reward'],
+                name='CPA Reward (Custo)',
+                marker_color='#F59E0B',
+                hovertemplate='<b>%{x}</b><br>CPA: R$ %{y:,.2f}<extra></extra>'
+            ))
+            fig_aff_bottom.add_trace(go.Bar(
+                x=bottom_20_chart['Affiliate Label'],
+                y=bottom_20_chart['FIXED FEE'],
+                name='FIXED FEE (Custo Adicional)',
+                marker_color='#8B5CF6',
+                hovertemplate='<b>%{x}</b><br>FIXED FEE: R$ %{y:,.2f}<extra></extra>'
+            ))
+            fig_aff_bottom.add_trace(go.Scatter(
+                x=bottom_20_chart['Affiliate Label'],
+                y=bottom_20_chart['NGR Afiliado'],
+                name='NGR Afiliado',
+                mode='lines+markers',
+                marker=dict(color='#F43F5E', size=7),
+                line=dict(color='#F43F5E', width=3),
+                hovertemplate='<b>%{x}</b><br>NGR: R$ %{y:,.2f}<extra></extra>'
+            ))
+
+            fig_aff_bottom.update_layout(
+                barmode='stack',
+                height=560,
+                xaxis=dict(tickangle=-35, automargin=True, tickfont=dict(size=10)),
+                yaxis=dict(tickfont=dict(size=10))
+            )
+            fig_aff_bottom = aplicar_template_financeiro(fig_aff_bottom, f"Análise de Custo de Aquisição + NGR (Bottom 20) - {periodo_foco}")
+            st.plotly_chart(fig_aff_bottom, use_container_width=True)
 
 else:
     st.error("❌ FALHA NA CARGA: O Motor de Dados não detectou a base blindada.")
