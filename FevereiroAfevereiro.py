@@ -9,7 +9,7 @@ import datetime
 import time
 st.title("Finance Stake")
 
-st.write("STAKE.BET.BR 🚀")
+st.write("App rodando 🚀")
 # ==============================================================================
 # 1. ARQUITETURA DE UI E DESIGN EXECUTIVO (C-LEVEL DASHBOARD)
 # ==============================================================================
@@ -587,6 +587,32 @@ if df_audit is not None and not df_audit.empty:
 
     elif menu == "3. Raio-X Operacional (Mês a Mês)":
         st.markdown("<h2 class='section-title'>3. Decomposição Financeira por Ciclo Fiscal</h2>", unsafe_allow_html=True)
+        st.markdown("""
+        <style>
+        [data-testid="stMetricValue"] > div {
+            font-size: 1.25rem !important;
+        }
+        [data-testid="stMetricLabel"] > div, [data-testid="stMetricLabel"] * {
+            font-size: 0.76rem !important;
+            letter-spacing: 0.8px !important;
+        }
+        .kpi-block {
+            padding: 14px !important;
+        }
+        .kpi-title {
+            font-size: 0.92rem !important;
+        }
+        .kpi-text {
+            font-size: 0.79rem !important;
+            line-height: 1.4 !important;
+        }
+        .consultant-report {
+            font-size: 0.84rem !important;
+            line-height: 1.5 !important;
+            padding: 20px 24px !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
         meses_select = [str(m) for m in df_audit['Periodo'].tolist()]
         mes_foco = st.selectbox("Selecione o período contábil de análise:", meses_select)
         d = df_audit[df_audit['Periodo'] == mes_foco].iloc[0]
