@@ -667,6 +667,115 @@ if df_audit is not None and not df_audit.empty:
         </div>
         """, unsafe_allow_html=True)
 
+        st.markdown("### 🧪 Simulação Executiva de Redução de Bônus")
+        c_e1, c_e2 = st.columns([1, 2])
+        with c_e1:
+            reducao_bonus = st.slider("Redução simulada de bônus (%)", 0, 60, 25, 5)
+            pct_reinvestimento = st.slider("Parcela reinvestida em aquisição (%)", 0, 100, 70, 5)
+            st.markdown("""
+            <div class='kpi-block'>
+                <div class='kpi-title'>Premissas do modelo</div>
+                <div class='kpi-text'>
+                • Parte da economia em bônus pode ser redirecionada para aquisição.<br>
+                • Parte da base ativa reage negativamente ao corte promocional.<br>
+                • O objetivo é mostrar <b>ordem de grandeza</b> do impacto em caixa, não projeção contábil final.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with c_e2:
+            bonus_base = ult['BonusCost']
+            depositos_base = ult['DepositAmount']
+            ngr_base = ult['NGR']
+            ativos_base = ult['ActiveCustomers']
+            ftd_base = ult['FirstDepositsAmount']
+            ativos_mes_anterior = df_audit.iloc[-2]['ActiveCustomers']
+
+            corte_bonus = reducao_bonus / 100
+            reinvestimento = pct_reinvestimento / 100
+
+            economia_bonus = bonus_base * corte_bonus
+            verba_aquisicao = economia_bonus * reinvestimento
+
+            # Premissas conservadoras para leitura executiva
+            lift_ftd_por_reinvestimento = 0.40
+            pressao_sobre_depositos_existentes = 0.10
+            perda_base_ativa_elasticidade = 0.12
+            impacto_ngr_sobre_reducao = 0.12
+            monetizacao_ftd_incremental = 0.22
+
+            ftd_incremental = verba_aquisicao * lift_ftd_por_reinvestimento
+            perda_depositos_existentes = depositos_base * corte_bonus * pressao_sobre_depositos_existentes
+            impacto_liquido_depositos = ftd_incremental - perda_depositos_existentes
+            jogadores_adicionais_saindo = int(ativos_base * corte_bonus * perda_base_ativa_elasticidade)
+            churn_base = max(int(ativos_mes_anterior - ativos_base), 0)
+            churn_projetado = churn_base + jogadores_adicionais_saindo
+            base_ativa_projetada = max(int(ativos_base - jogadores_adicionais_saindo), 0)
+            perda_ngr_retencao = ngr_base * corte_bonus * impacto_ngr_sobre_reducao
+            impacto_ngr_aquisicao = ftd_incremental * monetizacao_ftd_incremental
+            impacto_ngr_estimado = economia_bonus - perda_ngr_retencao + impacto_ngr_aquisicao
+
+            c_k1, c_k2, c_k3 = st.columns(3)
+            c_k1.metric("Economia de Bônus", f"R$ {economia_bonus:,.0f}")
+            c_k2.metric("FTD Incremental Potencial", f"R$ {ftd_incremental:,.0f}")
+            c_k3.metric("Churn Adicional Estimado", f"{jogadores_adicionais_saindo:,.0f} jogadores")
+
+            c_k4, c_k5, c_k6 = st.columns(3)
+            c_k4.metric("Impacto Líquido em Depósitos", f"R$ {impacto_liquido_depositos:,.0f}")
+            c_k5.metric("Base Ativa Projetada", f"{base_ativa_projetada:,.0f}")
+            c_k6.metric("Impacto Estimado em NGR", f"R$ {impacto_ngr_estimado:,.0f}")
+
+            fig_elastic = go.Figure()
+            fig_elastic.add_trace(go.Bar(
+                x=["Economia de bônus", "FTD incremental", "Perda em depósitos", "Impacto estimado NGR"],
+                y=[economia_bonus, ftd_incremental, -perda_depositos_existentes, impacto_ngr_estimado],
+                marker_color=["#10B981", "#38BDF8", "#F43F5E", "#F59E0B"]
+            ))
+            fig_elastic = aplicar_template_financeiro(fig_elastic, "Efeito Financeiro da Redução de Bônus")
+            st.plotly_chart(fig_elastic, use_container_width=True)
+
+        cenarios = pd.DataFrame([
+            {"Cenário": "Conservador", "Redução de bônus": "10%", "Economia de bônus": bonus_base * 0.10,
+             "FTD incremental potencial": bonus_base * 0.10 * 0.70 * 0.40,
+             "Jogadores saindo": int(ativos_base * 0.10 * perda_base_ativa_elasticidade),
+             "Impacto estimado em NGR": (bonus_base * 0.10) - (ngr_base * 0.10 * impacto_ngr_sobre_reducao) + ((bonus_base * 0.10 * 0.70 * 0.40) * monetizacao_ftd_incremental)},
+            {"Cenário": "Base", "Redução de bônus": "25%", "Economia de bônus": economia_bonus,
+             "FTD incremental potencial": ftd_incremental,
+             "Jogadores saindo": jogadores_adicionais_saindo,
+             "Impacto estimado em NGR": impacto_ngr_estimado},
+            {"Cenário": "Agressivo", "Redução de bônus": "40%", "Economia de bônus": bonus_base * 0.40,
+             "FTD incremental potencial": bonus_base * 0.40 * 0.70 * 0.40,
+             "Jogadores saindo": int(ativos_base * 0.40 * perda_base_ativa_elasticidade),
+             "Impacto estimado em NGR": (bonus_base * 0.40) - (ngr_base * 0.40 * impacto_ngr_sobre_reducao) + ((bonus_base * 0.40 * 0.70 * 0.40) * monetizacao_ftd_incremental)}
+        ])
+
+        st.markdown("### 📋 Cenários de Decisão para Diretoria")
+        st.dataframe(
+            cenarios.style.format({
+                "Economia de bônus": "R$ {:,.2f}",
+                "FTD incremental potencial": "R$ {:,.2f}",
+                "Impacto estimado em NGR": "R$ {:,.2f}",
+                "Jogadores saindo": "{:,.0f}"
+            }),
+            use_container_width=True
+        )
+
+        st.markdown(f"""
+        <div class='consultant-report'>
+        <b>PARECER EXECUTIVO SOBRE ELASTICIDADE:</b><br><br>
+        Considerando o último ciclo observado, uma redução de <b>{reducao_bonus}%</b> no orçamento de bônus geraria uma economia imediata de 
+        <b>R$ {economia_bonus:,.2f}</b>. Se <b>{pct_reinvestimento}%</b> dessa economia for redirecionada para aquisição, o modelo estima 
+        um potencial de <b>R$ {ftd_incremental:,.2f}</b> em novo FTD.<br><br>
+        O principal risco é a aceleração do churn da base veterana. Neste cenário, o corte promocional adicionaria cerca de 
+        <b>{jogadores_adicionais_saindo:,.0f} jogadores</b> ao fluxo de saída, levando o churn projetado para <b>{churn_projetado:,.0f} jogadores</b> no ciclo.<br><br>
+        <b>Leitura gerencial:</b><br>
+        • se a prioridade for preservar caixa no curtíssimo prazo, o corte de bônus melhora liquidez imediata;<br>
+        • se a prioridade for reconstruir crescimento, o corte só faz sentido com reinvestimento disciplinado em aquisição;<br>
+        • quanto maior a redução promocional, maior a pressão sobre retenção, depósitos recorrentes e base ativa;<br>
+        • para a diretoria, a decisão ótima tende a ser um <b>corte moderado com realocação forte para FTD</b>, e não uma compressão linear de incentivos.
+        </div>
+        """, unsafe_allow_html=True)
+
     elif menu == "5. Market Share & Unit Economics":
         st.markdown("<h2 class='section-title'>5. Benchmark de Mercado e Unit Economics</h2>", unsafe_allow_html=True)
         base_val = df_audit['Bet'].iloc[0]
