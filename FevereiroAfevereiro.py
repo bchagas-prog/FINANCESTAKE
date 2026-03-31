@@ -593,19 +593,19 @@ if df_audit is not None and not df_audit.empty:
         
         st.markdown("<br>", unsafe_allow_html=True)
         c1, c2, c3, c4, c5, c6 = st.columns(6)
-        c1.metric("Handle (Giro)", f"R$ {d['Bet']:,.0f}", f"{d.get('Delta_Bet_Pct', 0):.1f}%")
-        c2.metric("GGR (Bruto)", f"R$ {d['Ggr']:,.0f}", f"{d.get('Delta_Ggr_Pct', 0):.1f}%")
-        c3.metric("NGR (Líquido)", f"R$ {d['NGR']:,.0f}", f"{d.get('Delta_NGR_Pct', 0):.1f}%")
+        c1.metric("Handle", f"R$ {d['Bet']:,.0f}", f"{d.get('Delta_Bet_Pct', 0):.1f}%")
+        c2.metric("GGR", f"R$ {d['Ggr']:,.0f}", f"{d.get('Delta_Ggr_Pct', 0):.1f}%")
+        c3.metric("NGR", f"R$ {d['NGR']:,.0f}", f"{d.get('Delta_NGR_Pct', 0):.1f}%")
         c4.metric("Depósitos", f"R$ {d['DepositAmount']:,.0f}", f"{d.get('Delta_DepositAmount_Pct', 0):.1f}%")
-        c5.metric("Base Ativa", f"{d['ActiveCustomers']:,.0f}", f"{d.get('Delta_ActiveCustomers_Pct', 0):.1f}%")
-        c6.metric("Hold %", f"{d['Hold_Pct']}%")
+        c5.metric("Ativos", f"{d['ActiveCustomers']:,.0f}", f"{d.get('Delta_ActiveCustomers_Pct', 0):.1f}%")
+        c6.metric("Hold", f"{d['Hold_Pct']}%")
 
         st.markdown("<br>", unsafe_allow_html=True)
         c7, c8, c9, c10 = st.columns(4)
-        c7.metric("Ticket Médio (Depósito)", f"R$ {d['Ticket_Medio_Dep']:,.2f}")
-        c8.metric("ARPU (Receita por Usuário)", f"R$ {d['ARPU']:,.2f}")
-        c9.metric("FTD Ratio (New Money)", f"{d['FTD_Ratio']}%")
-        c10.metric("Bonus Ratio (Custo)", f"{d['Bonus_Ratio']}%")
+        c7.metric("Ticket Médio", f"R$ {d['Ticket_Medio_Dep']:,.2f}")
+        c8.metric("ARPU", f"R$ {d['ARPU']:,.2f}")
+        c9.metric("FTD Ratio", f"{d['FTD_Ratio']}%")
+        c10.metric("Bonus Ratio", f"{d['Bonus_Ratio']}%")
         
         col_t1, col_t2 = st.columns(2)
         with col_t1:
