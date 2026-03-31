@@ -552,7 +552,7 @@ if df_audit is not None and not df_audit.empty:
         c_g1, c_g2 = st.columns(2)
         with c_g1:
             fig_1 = make_subplots(specs=[[{"secondary_y": True}]])
-            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='HANDLE (LIQUIDEZ)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5)), secondary_y=False)
+            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='HANDLE (LIQUIDEZ)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5 )), secondary_y=False)
             fig_1.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['Ggr'], name='GGR (RECEITA BRUTA)', marker_color='#10B981', opacity=0.9, width=0.6), secondary_y=True)
             fig_1 = aplicar_template_financeiro(fig_1, "Evolução do Histórico: Volume x Receita Bruta")
             fig_1.update_yaxes(title_text="<b>HANDLE (Lado Esquerdo)</b>", color="#FFFFFF", secondary_y=False)
@@ -590,26 +590,26 @@ if df_audit is not None and not df_audit.empty:
         st.markdown("""
         <style>
         [data-testid="stMetricValue"] > div {
-            font-size: 1.25rem !important;
+            font-size: 1.10rem !important;
         }
         [data-testid="stMetricLabel"] > div, [data-testid="stMetricLabel"] * {
-            font-size: 0.76rem !important;
-            letter-spacing: 0.8px !important;
+            font-size: 0.68rem !important;
+            letter-spacing: 0.6px !important;
         }
         .kpi-block {
-            padding: 14px !important;
+            padding: 12px !important;
         }
         .kpi-title {
-            font-size: 0.92rem !important;
+            font-size: 0.82rem !important;
         }
         .kpi-text {
-            font-size: 0.79rem !important;
-            line-height: 1.4 !important;
+            font-size: 0.72rem !important;
+            line-height: 1.32 !important;
         }
         .consultant-report {
-            font-size: 0.84rem !important;
-            line-height: 1.5 !important;
-            padding: 20px 24px !important;
+            font-size: 0.76rem !important;
+            line-height: 1.38 !important;
+            padding: 18px 20px !important;
         }
         </style>
         """, unsafe_allow_html=True)
@@ -624,7 +624,7 @@ if df_audit is not None and not df_audit.empty:
         c3.metric("NGR", f"R$ {d['NGR']:,.0f}", f"{d.get('Delta_NGR_Pct', 0):.1f}%")
         c4.metric("Depósitos", f"R$ {d['DepositAmount']:,.0f}", f"{d.get('Delta_DepositAmount_Pct', 0):.1f}%")
         c5.metric("Ativos", f"{d['ActiveCustomers']:,.0f}", f"{d.get('Delta_ActiveCustomers_Pct', 0):.1f}%")
-        c6.metric("Hold", f"{d['Hold_Pct']}%")
+        c6.metric("Margem", f"{d['Hold_Pct']}%")
 
         st.markdown("<br>", unsafe_allow_html=True)
         c7, c8, c9, c10 = st.columns(4)
