@@ -815,7 +815,7 @@ if df_audit is not None and not df_audit.empty:
         """, unsafe_allow_html=True)
 
     elif menu == "10. Affiliate Performance (Top/Bottom 20)":
-        st.markdown("<h2 class='section-title'>10. Módulo Forense de Afiliados</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class='section-title'>10. Análise de Afiliados</h2>", unsafe_allow_html=True)
         st.markdown("""
         <div class='consultant-report'>
         <b>AUDITORIA DE PARCEIROS B2B:</b><br>
