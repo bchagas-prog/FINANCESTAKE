@@ -800,7 +800,7 @@ if df_audit is not None and not df_audit.empty:
         
         st.markdown("""
         <div class='consultant-report'>
-        <b>AUDITORIA FORENSE:</b><br>
+        <b>ANALISE AFILIADOS:</b><br>
         Esta seção aponta meses em que bônus, captação de capital novo e receita líquida saíram da faixa estatística esperada.<br><br>
         <b>Como interpretar:</b><br>
         • <b>Z-Score de Bônus alto:</b> evidencia excesso promocional e risco de compra artificial de volume.<br>
