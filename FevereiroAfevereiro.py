@@ -768,49 +768,131 @@ if df_audit is not None and not df_audit.empty:
             else:
                 st.error(f"⚠️ **SINAL VERMELHO:** A redução de bônus é muito agressiva para a taxa de conversão atual.")
 
-    elif menu == "9. Anomaly & Fraud Detection Engine":
+    elif menu == "9. Anomaly & Fraud Detection":
         st.markdown("<h2 class='section-title'>9. Monitoramento de Anomalias Estatísticas</h2>", unsafe_allow_html=True)
-        df_audit['Z_Score_Bonus'] = (df_audit['BonusCost'] - df_audit['BonusCost'].mean()) / df_audit['BonusCost'].std()
-        df_audit['Z_Score_FTD'] = (df_audit['FirstDepositsAmount'] - df_audit['FirstDepositsAmount'].mean()) / df_audit['FirstDepositsAmount'].std()
-        df_audit['Z_Score_NGR'] = (df_audit['NGR'] - df_audit['NGR'].mean()) / df_audit['NGR'].std()
+        df_anom = df_audit.copy()
+        df_anom['Z_Score_Bonus'] = (df_anom['BonusCost'] - df_anom['BonusCost'].mean()) / df_anom['BonusCost'].std()
+        df_anom['Z_Score_FTD'] = (df_anom['FirstDepositsAmount'] - df_anom['FirstDepositsAmount'].mean()) / df_anom['FirstDepositsAmount'].std()
+        df_anom['Z_Score_NGR'] = (df_anom['NGR'] - df_anom['NGR'].mean()) / df_anom['NGR'].std()
+        df_anom['Z_Score_Deposit'] = (df_anom['DepositAmount'] - df_anom['DepositAmount'].mean()) / df_anom['DepositAmount'].std()
+        df_anom['Risk_Score'] = (
+            df_anom['Z_Score_Bonus'].abs() * 0.35 +
+            df_anom['Z_Score_FTD'].abs() * 0.25 +
+            df_anom['Z_Score_NGR'].abs() * 0.25 +
+            df_anom['Z_Score_Deposit'].abs() * 0.15
+        ).round(2)
+        df_anom['Risk_Flag'] = np.select(
+            [
+                df_anom['Risk_Score'] >= 2.2,
+                df_anom['Risk_Score'] >= 1.4
+            ],
+            [
+                "ALTA PRIORIDADE",
+                "ATENCAO"
+            ],
+            default="NORMAL"
+        )
+
+        st.markdown("""
+        <div class='consultant-report'>
+        <b>LEITURA EXECUTIVA:</b><br><br>
+        Esta aba funciona como uma camada de auditoria gerencial sobre a operação. O objetivo não é apenas mostrar meses ruins, 
+        mas identificar <b>comportamentos fora do padrão</b> que podem sinalizar fraude promocional, deterioração de cohort, 
+        compra ineficiente de tráfego ou distorção pontual de margem.<br><br>
+        <b>O score consolidado combina quatro vetores:</b><br>
+        • desvio no custo de bônus;<br>
+        • queda ou pico anormal de FTD;<br>
+        • distorção do NGR;<br>
+        • alteração fora da curva no volume de depósitos.<br><br>
+        Quanto maior o score, maior a necessidade de auditoria do ciclo, revisão das campanhas e validação com CRM, risco e afiliados.
+        </div>
+        """, unsafe_allow_html=True)
         
-        fig_anom = px.scatter(df_audit, x='Periodo', y='BonusCost', color='Z_Score_Bonus', size='Ggr',
+        c_a1, c_a2, c_a3, c_a4 = st.columns(4)
+        c_a1.metric("Meses Alta Prioridade", f"{(df_anom['Risk_Flag'] == 'ALTA PRIORIDADE').sum():,.0f}")
+        c_a2.metric("Picos de Bônus", f"{(df_anom['Z_Score_Bonus'] > 1.5).sum():,.0f}")
+        c_a3.metric("Quedas de FTD", f"{(df_anom['Z_Score_FTD'] < -1.0).sum():,.0f}")
+        c_a4.metric("NGR Atípico", f"{(df_anom['Z_Score_NGR'].abs() > 1.0).sum():,.0f}")
+
+        col_an1, col_an2 = st.columns(2)
+        with col_an1:
+            fig_anom = px.scatter(df_anom, x='Periodo', y='BonusCost', color='Z_Score_Bonus', size='Ggr',
                              title="Audit Trail: Detecção de Over-Bonification",
                              color_continuous_scale=px.colors.diverging.RdYlGn_r)
-        st.plotly_chart(aplicar_template_financeiro(fig_anom), use_container_width=True)
+            st.plotly_chart(aplicar_template_financeiro(fig_anom), use_container_width=True)
 
-        meses_criticos_bonus = df_audit[df_audit['Z_Score_Bonus'].abs() > 1.5][['Periodo', 'BonusCost', 'Bonus_Ratio', 'Z_Score_Bonus']].copy()
-        meses_criticos_bonus = meses_criticos_bonus.sort_values(by='Z_Score_Bonus', ascending=False)
+        with col_an2:
+            fig_risk = go.Figure()
+            fig_risk.add_trace(go.Bar(
+                x=df_anom['Periodo'],
+                y=df_anom['Risk_Score'],
+                marker_color=np.where(df_anom['Risk_Score'] >= 2.2, '#F43F5E',
+                                      np.where(df_anom['Risk_Score'] >= 1.4, '#F59E0B', '#10B981')),
+                name="Risk Score"
+            ))
+            fig_risk.add_hline(y=1.4, line_dash="dot", line_color="#F59E0B")
+            fig_risk.add_hline(y=2.2, line_dash="dot", line_color="#F43F5E")
+            fig_risk = aplicar_template_financeiro(fig_risk, "Score Consolidado de Risco Operacional")
+            st.plotly_chart(fig_risk, use_container_width=True)
 
-        c_a1, c_a2, c_a3 = st.columns(3)
-        c_a1.metric("Picos de Bônus", f"{(df_audit['Z_Score_Bonus'] > 1.5).sum():,.0f}")
-        c_a2.metric("Quedas de FTD", f"{(df_audit['Z_Score_FTD'] < -1.0).sum():,.0f}")
-        c_a3.metric("Meses com NGR Atípico", f"{(df_audit['Z_Score_NGR'].abs() > 1.0).sum():,.0f}")
+        meses_criticos = df_anom[
+            (df_anom['Risk_Score'] >= 1.4) |
+            (df_anom['Z_Score_Bonus'].abs() > 1.5) |
+            (df_anom['Z_Score_FTD'].abs() > 1.0) |
+            (df_anom['Z_Score_NGR'].abs() > 1.0)
+        ][[
+            'Periodo', 'BonusCost', 'FirstDepositsAmount', 'NGR',
+            'Bonus_Ratio', 'Risk_Score', 'Risk_Flag',
+            'Z_Score_Bonus', 'Z_Score_FTD', 'Z_Score_NGR'
+        ]].copy()
+        meses_criticos = meses_criticos.sort_values(by=['Risk_Score', 'Z_Score_Bonus'], ascending=False)
 
-        if not meses_criticos_bonus.empty:
+        if not meses_criticos.empty:
             st.markdown("### 🔎 Meses Prioritários para Auditoria")
             st.dataframe(
-                meses_criticos_bonus.style.format({
+                meses_criticos.style.format({
                     "BonusCost": "R$ {:,.2f}",
+                    "FirstDepositsAmount": "R$ {:,.2f}",
+                    "NGR": "R$ {:,.2f}",
                     "Bonus_Ratio": "{:,.2f}%",
-                    "Z_Score_Bonus": "{:,.2f}"
+                    "Risk_Score": "{:,.2f}",
+                    "Z_Score_Bonus": "{:,.2f}",
+                    "Z_Score_FTD": "{:,.2f}",
+                    "Z_Score_NGR": "{:,.2f}"
                 }),
                 use_container_width=True
             )
+
+        st.markdown("### 🧭 Regras Práticas de Investigação")
+        st.markdown("""
+        <div class='kpi-block'>
+            <div class='kpi-title'>1. Over-Bonification</div>
+            <div class='kpi-text'>Se <b>Bonus Ratio</b> sobe e o <b>NGR</b> não acompanha, há indício de incentivo improdutivo, abuso promocional ou retenção artificial de curto prazo.</div>
+        </div>
+        <div class='kpi-block'>
+            <div class='kpi-title'>2. Queda de New Money</div>
+            <div class='kpi-text'>Se o <b>FTD</b> cai abruptamente enquanto o depósito total resiste, a operação passa a depender de reciclagem da base antiga e perde potência de crescimento.</div>
+        </div>
+        <div class='kpi-block'>
+            <div class='kpi-title'>3. Distorção de Margem</div>
+            <div class='kpi-text'>Meses com <b>NGR muito fora da curva</b> precisam ser revisados junto a campanhas, CRM, afiliados, cohorts e eventuais mudanças de mix de produto.</div>
+        </div>
+        """, unsafe_allow_html=True)
         
         st.markdown("""
         <div class='consultant-report'>
-        <b>ANALISE AFILIADOS:</b><br>
+        <b>ENCAMINHAMENTO GERENCIAL:</b><br>
         Esta seção aponta meses em que bônus, captação de capital novo e receita líquida saíram da faixa estatística esperada.<br><br>
         <b>Como interpretar:</b><br>
         • <b>Z-Score de Bônus alto:</b> evidencia excesso promocional e risco de compra artificial de volume.<br>
         • <b>Z-Score de FTD muito baixo:</b> mostra retração de capital novo e aumento da dependência de reciclagem da base antiga.<br>
         • <b>Z-Score de NGR fora do padrão:</b> indica distorção relevante de margem líquida, positiva ou negativa.<br><br>
-        <b>Encaminhamento gerencial:</b><br>
+        <b>Prioridades para diretoria:</b><br>
         • auditar origem do tráfego e campanhas do período;<br>
         • revisar se o bônus foi direcionado para retenção saudável ou para sustentar comportamento improdutivo;<br>
         • comparar o mês anômalo com os pares anteriores e posteriores para medir recorrência;<br>
-        • validar com risco e CRM se houve abuso, cluster de jogadores oportunistas ou deterioração de cohort quality.
+        • validar com risco e CRM se houve abuso, cluster de jogadores oportunistas ou deterioração de cohort quality;<br>
+        • decidir se o mês requer ajuste de budget, revisão de política promocional ou corte tático em canais de aquisição.
         </div>
         """, unsafe_allow_html=True)
 
