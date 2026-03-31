@@ -529,7 +529,7 @@ if df_audit is not None and not df_audit.empty:
         st.markdown(""" 
         <div class='consultant-report'>
         <b>PARECER TÉCNICO: ESTADO DE EXAUSTÃO ESTRUTURAL</b><br><br>
-        A análise Comportamental dos 14 meses de dados consolidados aponta para um cenário onde a operação atingiu seu <b>ponto de saturação tática em Outubro/2025</b>. A partir de então, verificamos um decréscimo severo no vetor de oxigenação da base (FTD).<br><br>
+        A análise comportamental dos últimos 14 meses de dados consolidados indica que a operação atingiu um ponto de maturidade em outubro de 2025. A partir desse momento, observa-se uma redução relevante no ritmo de aquisição de novos clientes (FTD), refletindo um enfraquecimento do vetor de crescimento da base.
         <b>Os 3 Pilares do Problema Atual:</b><br>
         <ul style="margin-top: 10px; margin-bottom: 10px;">
             <li><b>O Colapso do FTD (New Money):</b> A aquisição de capital inédito despencou. Passamos de uma média de R$ 6M para R$ 1.8M em Março/26. A plataforma deixou de trazer tráfego fresco, dependendo da reciclagem de veteranos.</li>
