@@ -9,7 +9,7 @@ import datetime
 import time
 st.title("Finance Stake")
 
-st.write("STAKE.BET.BR 🚀")
+st.write("App rodando 🚀")
 # ==============================================================================
 # 1. ARQUITETURA DE UI E DESIGN EXECUTIVO (C-LEVEL DASHBOARD)
 # ==============================================================================
@@ -529,7 +529,7 @@ if df_audit is not None and not df_audit.empty:
         st.markdown(""" 
         <div class='consultant-report'>
         <b>PARECER TÉCNICO: ESTADO DE EXAUSTÃO ESTRUTURAL</b><br><br>
-        A análise comportamental dos últimos 14 meses de dados consolidados indica que a operação atingiu um ponto de maturidade em outubro de 2025. A partir desse momento, observa-se uma redução relevante no ritmo de aquisição de novos clientes (FTD), refletindo um enfraquecimento do vetor de crescimento da base.
+        A análise Comportamental dos 14 meses de dados consolidados aponta para um cenário onde a operação atingiu seu <b>ponto de saturação tática em Outubro/2025</b>. A partir de então, verificamos um decréscimo severo no vetor de oxigenação da base (FTD).<br><br>
         <b>Os 3 Pilares do Problema Atual:</b><br>
         <ul style="margin-top: 10px; margin-bottom: 10px;">
             <li><b>O Colapso do FTD (New Money):</b> A aquisição de capital inédito despencou. Passamos de uma média de R$ 6M para R$ 1.8M em Março/26. A plataforma deixou de trazer tráfego fresco, dependendo da reciclagem de veteranos.</li>
@@ -552,7 +552,7 @@ if df_audit is not None and not df_audit.empty:
         c_g1, c_g2 = st.columns(2)
         with c_g1:
             fig_1 = make_subplots(specs=[[{"secondary_y": True}]])
-            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='TURNOVER (VOLUME DE APOSTAS)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5)), secondary_y=False)
+            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='HANDLE (LIQUIDEZ)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5)), secondary_y=False)
             fig_1.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['Ggr'], name='GGR (RECEITA BRUTA)', marker_color='#10B981', opacity=0.9, width=0.6), secondary_y=True)
             fig_1 = aplicar_template_financeiro(fig_1, "Evolução do Histórico: Volume x Receita Bruta")
             fig_1.update_yaxes(title_text="<b>HANDLE (Lado Esquerdo)</b>", color="#FFFFFF", secondary_y=False)
@@ -613,9 +613,9 @@ if df_audit is not None and not df_audit.empty:
             <div class='kpi-block'>
                 <div class='kpi-title'>📍 Elasticidade de Produto (Handle vs Hold)</div>
                 <div class='kpi-text'>
-                Volume Registrado: R$ {d['Bet']:,.2f}. <br>
-                <b>Parecer:</b> O Hold de {d['Hold_Pct']}% está dentro do padrão ouro da indústria iGaming. O faturamento não está caindo por defeito no jogo, mas por falta de volume de apostadores.
-                <br><br><b>ARPU:</b> Cada jogador ativo gerou R$ {d['ARPU']:,.2f} de receita bruta neste ciclo.
+                Volume: R$ {d['Bet']:,.2f}.<br>
+                <b>Leitura:</b> Hold em {d['Hold_Pct']}%, dentro do padrão da indústria. A pressão está mais em volume do que em produto.
+                <br><br><b>ARPU:</b> R$ {d['ARPU']:,.2f} por ativo.
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -624,9 +624,9 @@ if df_audit is not None and not df_audit.empty:
             <div class='kpi-block'>
                 <div class='kpi-title'>💸 Motor de Aquisição (New Money)</div>
                 <div class='kpi-text'>
-                Injeção de FTD: R$ {d['FirstDepositsAmount']:,.2f}. <br>
-                <b>Parecer:</b> O FTD Ratio de {d['FTD_Ratio']}% é insuficiente para o equilíbrio do churn. O caixa está sendo financiado por capital reciclado.
-                <br><br><b>Custo de Bônus:</b> A plataforma queimou R$ {d['BonusCost']:,.2f} ({d['Bonus_Ratio']}% do GGR) para segurar a base atual.
+                FTD: R$ {d['FirstDepositsAmount']:,.2f}.<br>
+                <b>Leitura:</b> O FTD Ratio de {d['FTD_Ratio']}% ainda não compensa o churn.
+                <br><br><b>Bônus:</b> R$ {d['BonusCost']:,.2f} ({d['Bonus_Ratio']}% do GGR).
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -650,9 +650,9 @@ if df_audit is not None and not df_audit.empty:
         st.markdown(f"""
         <div class='consultant-report'>
         <b>DIAGNÓSTICO APROFUNDADO DO MÊS ({mes_foco.upper()}):</b><br>
-        • A eficiência de retenção está refletida no Ticket Médio de <b>R$ {d['Ticket_Medio_Dep']:,.2f}</b> por depósito realizado na plataforma.<br>
-        • A relação entre a receita gerada pelo usuário e o capital "devolvido" como estímulo (Retention Ad-Spend) revela um sacrifício de margem brutal de <b>{d['Bonus_Ratio']}%</b>.<br>
-        • Para que a operação (NGR) volte a apresentar crescimento sustentável sem depender de alta volatilidade (Hold estourando), a taxa de <b>New Money (FTD Ratio)</b> precisa obrigatoriamente cruzar a barreira de segurança de 15%. Atualmente encontra-se em {d['FTD_Ratio']}%, o que força o time de CRM a sangrar a margem líquida para tentar engajar usuários com alto índice de fadiga.
+        • Ticket médio de depósito em <b>R$ {d['Ticket_Medio_Dep']:,.2f}</b>.<br>
+        • O custo promocional consumiu <b>{d['Bonus_Ratio']}%</b> do GGR.<br>
+        • O <b>FTD Ratio</b> está em {d['FTD_Ratio']}%, ainda abaixo da faixa ideal para sustentar crescimento com menor pressão sobre bônus.
         </div>
         """, unsafe_allow_html=True)
 
