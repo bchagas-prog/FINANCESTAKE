@@ -491,7 +491,7 @@ if df_audit is not None and not df_audit.empty:
     col_h1, col_h2 = st.columns([3, 1])
     with col_h1:
         st.title("🏦 FINANCE ANALYSIS")
-        st.markdown(f"**Confidencial | Data da Extração:** {datetime.datetime.now().strftime('%d/%m/%Y')} | **Status:** Ciclo FEV/25 - MAR/26")
+        st.markdown(f"**Confidencial | Data:** {datetime.datetime.now().strftime('%d/%m/%Y')} | **Status:** Ciclo FEV/25 - MAR/26")
     with col_h2:
         st.markdown("""
             <div style='text-align:right; margin-top:15px;'>
