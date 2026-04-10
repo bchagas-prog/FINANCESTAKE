@@ -9,7 +9,7 @@ import datetime
 import time
 st.title("Finance Stake")
 
-st.write("Stake 🚀")
+st.write("Stake Brazil 🚀")
 # ==============================================================================
 # 1. ARQUITETURA DE UI E DESIGN EXECUTIVO (C-LEVEL DASHBOARD)
 # ==============================================================================
