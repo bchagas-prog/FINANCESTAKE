@@ -7,13 +7,14 @@ from plotly.subplots import make_subplots
 import os
 import datetime
 import time
-st.title("Finance Stake")
 
-st.write("Stake Brazil 🚀")
+st.title("Finance Stake")
+st.write("Stake 🚀")
+
 # ==============================================================================
-# 1. ARQUITETURA DE UI E DESIGN EXECUTIVO (C-LEVEL DASHBOARD)
+# 1. UI ARCHITECTURE AND EXECUTIVE DESIGN (C-LEVEL DASHBOARD)
 # ==============================================================================
-# Configuração de alta performance e layout ultra-wide
+# High performance configuration and ultra-wide layout
 st.set_page_config(
     page_title="STRATEGIC FINANCE ANALYSIS - STAKE BRAZIL",
     page_icon="📈",
@@ -22,11 +23,11 @@ st.set_page_config(
 )
 
 # ==============================================================================
-# INJEÇÃO DE CSS CORPORATIVO (ESTILIZAÇÃO PREMIUM DE ALTA DENSIDADE)
+# CORPORATE CSS INJECTION (PREMIUM HIGH-DENSITY STYLING)
 # ==============================================================================
 st.markdown("""
     <style>
-    /* Importação da família Inter - Padrão de Interfaces Financeiras Internacionais */
+    /* Inter family import - Standard for International Financial Interfaces */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
     
     :root {
@@ -47,19 +48,19 @@ st.markdown("""
         color: var(--text-main) !important;
     }
     
-    /* FORÇAR FUNDO ESCURO EM TODA A APLICAÇÃO */
+    /* FORCE DARK BACKGROUND ACROSS THE APP */
     .stApp, .main, [data-testid="stHeader"], [data-testid="stToolbar"] { 
         background-color: var(--primary-bg) !important; 
     }
     
-    /* BARRA LATERAL (SIDEBAR) - DESIGN CORPORATIVO */
+    /* SIDEBAR - CORPORATE DESIGN */
     [data-testid="stSidebar"] {
         background-color: var(--secondary-bg) !important;
         border-right: 1px solid var(--border-color) !important;
         width: 350px !important;
     }
     
-    /* ESTILIZAÇÃO DO MENU DE RÁDIO NA SIDEBAR */
+    /* RADIO MENU STYLING */
     .stRadio label p {
         color: #FFFFFF !important;
         font-weight: 600 !important;
@@ -67,7 +68,7 @@ st.markdown("""
         letter-spacing: 0.3px;
     }
     
-    /* ESTILIZAÇÃO DE INPUTS E SELECTBOXES */
+    /* INPUTS AND SELECTBOXES STYLING */
     .stSelectbox label p {
         color: var(--text-main) !important;
         font-weight: 700 !important;
@@ -97,7 +98,7 @@ st.markdown("""
     }
 
     /* -------------------------------------------------------------------------
-       AJUSTE DE FONTE DOS NÚMEROS (METRICS)
+       NUMBERS FONT ADJUSTMENT (METRICS)
     --------------------------------------------------------------------------*/
     [data-testid="stMetricValue"] > div { 
         color: #FFFFFF !important; 
@@ -113,7 +114,7 @@ st.markdown("""
         letter-spacing: 1.2px !important;
     }
     
-    /* CARTÕES DE MÉTRICAS - EFEITO DE PROFUNDIDADE */
+    /* METRICS CARDS - DEPTH EFFECT */
     .stMetric { 
         background-color: var(--card-bg) !important; 
         padding: 15px 20px !important; 
@@ -129,7 +130,7 @@ st.markdown("""
     }
 
     /* -------------------------------------------------------------------------
-       AJUSTE DE TAMANHO DO TEXTO (REPORTS/KPI TEXT)
+       TEXT SIZE ADJUSTMENT (REPORTS/KPI TEXT)
     --------------------------------------------------------------------------*/
     .consultant-report { 
         background: linear-gradient(165deg, #111827 0%, #0F172A 100%) !important; 
@@ -151,7 +152,7 @@ st.markdown("""
         font-weight: 800 !important; 
     }
     
-    /* TÍTULOS DE SEÇÃO */
+    /* SECTION TITLES */
     .section-title { 
         color: #FFFFFF !important; 
         font-weight: 800; 
@@ -164,7 +165,7 @@ st.markdown("""
         margin-bottom: 30px;
     }
 
-    /* KPI BLOCK (ESTRUTURA INTERNA DO RAIO-X) */
+    /* KPI BLOCK (INTERNAL STRUCTURE) */
     .kpi-block { 
         background-color: #0F172A !important; 
         padding: 18px; 
@@ -192,10 +193,10 @@ st.markdown("""
         font-weight: 800 !important; 
     }
 
-    /* TABELAS DE DADOS DA APLICAÇÃO */
+    /* APPLICATION DATA TABLES */
     .stDataFrame { border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; }
     
-    /* SCROLLBAR CUSTOMIZADA PARA EXPERIÊNCIA FLUIDA */
+    /* CUSTOM SCROLLBAR FOR FLUID EXPERIENCE */
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: var(--primary-bg); }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
@@ -207,13 +208,13 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # ==============================================================================
-# FUNÇÕES DE UTILITÁRIO DE LAYOUT (PARA MANTER CONSISTÊNCIA VISUAL C-LEVEL)
+# LAYOUT UTILITY FUNCTIONS (TO MAINTAIN C-LEVEL VISUAL CONSISTENCY)
 # ==============================================================================
 
 def aplicar_template_financeiro(fig, titulo=""):
     """
-    Padronização executiva de gráficos Plotly.
-    Garante legendas e textos em BRANCO (#FFFFFF) para evitar sumiço em fundo escuro.
+    Executive standardization of Plotly charts.
+    Ensures legends and texts are in WHITE (#FFFFFF) to prevent disappearing on dark background.
     """
     fig.update_layout(
         title=dict(
@@ -247,43 +248,40 @@ def aplicar_template_financeiro(fig, titulo=""):
     return fig
 
 # ==============================================================================
-# 2. MOTOR ETL (MACRO): CAPTURA FORENSE E BLINDAGEM DE DADOS (FEV/25 - MAR/26)
+# 2. ETL ENGINE (MACRO): FORENSIC CAPTURE AND DATA BLINDING (FEB/25 - MAR/26)
 # ==============================================================================
 
-@st.cache_data(show_spinner="OBTENDO INTELIGÊNCIA FINANCEIRA MACRO...")
+@st.cache_data(show_spinner="OBTAINING MACRO FINANCIAL INTELLIGENCE...")
 def carregar_motor_estatistico():
-    # MATRIZ BRUTA DE DADOS MACRO (100% FIEL AOS INPUTS DO USUÁRIO - 14 MESES)
+    # RAW MACRO DATA MATRIX (100% FAITHFUL TO USER INPUTS - 14 MONTHS)
     dataset_bruto = [
-        {"Periodo": "Fevereiro/25", "Bet": 433154903.03, "Ggr": 12817805.08, "AccountingRevenue": 4793123.37, "BonusCost": 8024681.71, "DepositAmount": 84614542.14, "DepositCount": 376216, "FirstDepositsAmount": 5452035.47, "ActiveCustomers": 93713},
-        {"Periodo": "Março/25", "Bet": 449776319.50, "Ggr": 12474456.69, "AccountingRevenue": 3461593.98, "BonusCost": 9012862.71, "DepositAmount": 90369274.57, "DepositCount": 391222, "FirstDepositsAmount": 6343221.86, "ActiveCustomers": 71182},
-        {"Periodo": "Abril/25", "Bet": 461386592.20, "Ggr": 13319801.53, "AccountingRevenue": 4767018.58, "BonusCost": 8552782.95, "DepositAmount": 95452676.79, "DepositCount": 451684, "FirstDepositsAmount": 7045320.18, "ActiveCustomers": 89597},
-        {"Periodo": "Maio/25", "Bet": 472787703.86, "Ggr": 16467641.86, "AccountingRevenue": 9721186.45, "BonusCost": 6746455.41, "DepositAmount": 92833122.69, "DepositCount": 444984, "FirstDepositsAmount": 4664941.54, "ActiveCustomers": 88803},
-        {"Periodo": "Junho/25", "Bet": 480912914.30, "Ggr": 17463526.94, "AccountingRevenue": 10911182.44, "BonusCost": 6552344.50, "DepositAmount": 94196541.68, "DepositCount": 419129, "FirstDepositsAmount": 5982397.35, "ActiveCustomers": 76894},
-        {"Periodo": "Julho/25", "Bet": 477529960.43, "Ggr": 15638347.67, "AccountingRevenue": 8808137.85, "BonusCost": 6830209.82, "DepositAmount": 90861644.43, "DepositCount": 407201, "FirstDepositsAmount": 4994592.87, "ActiveCustomers": 105552},
-        {"Periodo": "Agosto/25", "Bet": 460638534.40, "Ggr": 16950966.87, "AccountingRevenue": 9966733.22, "BonusCost": 6984233.65, "DepositAmount": 89384216.75, "DepositCount": 417421, "FirstDepositsAmount": 4243819.63, "ActiveCustomers": 94685},
-        {"Periodo": "Setembro/25", "Bet": 447766137.68, "Ggr": 13775941.23, "AccountingRevenue": 7097767.01, "BonusCost": 6678174.22, "DepositAmount": 86888335.77, "DepositCount": 418562, "FirstDepositsAmount": 5519619.07, "ActiveCustomers": 111437},
-        {"Periodo": "Outubro/25", "Bet": 494759539.00, "Ggr": 12388762.29, "AccountingRevenue": 5478265.27, "BonusCost": 6910497.02, "DepositAmount": 97196004.80, "DepositCount": 474100, "FirstDepositsAmount": 7122170.31, "ActiveCustomers": 89808},
-        {"Periodo": "Novembro/25", "Bet": 500831546.18, "Ggr": 15464720.24, "AccountingRevenue": 7763157.75, "BonusCost": 7701562.49, "DepositAmount": 89005331.10, "DepositCount": 442831, "FirstDepositsAmount": 4213036.44, "ActiveCustomers": 76702},
-        {"Periodo": "Dezembro/25", "Bet": 469903667.46, "Ggr": 16397186.75, "AccountingRevenue": 9144726.01, "BonusCost": 7252460.74, "DepositAmount": 80648625.03, "DepositCount": 406783, "FirstDepositsAmount": 2442483.58, "ActiveCustomers": 76537},
-        {"Periodo": "Janeiro/26", "Bet": 386563548.21, "Ggr": 12642884.23, "AccountingRevenue": 7468767.08, "BonusCost": 5174117.15, "DepositAmount": 66159171.03, "DepositCount": 348104, "FirstDepositsAmount": 2157301.62, "ActiveCustomers": 77882},
-        {"Periodo": "Fevereiro/26", "Bet": 282974008.65, "Ggr": 8252592.58, "AccountingRevenue": 4378511.90, "BonusCost": 3874080.68, "DepositAmount": 51737038.31, "DepositCount": 288391, "FirstDepositsAmount": 1849641.42, "ActiveCustomers": 67932},
-        {"Periodo": "Março/26", "Bet": 252135263.60, "Ggr": 6100445.57, "AccountingRevenue": 3265798.25, "BonusCost": 2834647.32, "DepositAmount": 46144497.75, "DepositCount": 258837, "FirstDepositsAmount": 1805797.30, "ActiveCustomers": 64863}
+        {"Periodo": "February/25", "Bet": 75156618.15, "Ggr": 2271467.46, "AccountingRevenue": 865332.98, "DepositAmount": 14670999.56, "DepositCount": 376216, "FirstDepositsAmount": 22140, "ActiveCustomers": 42949},
+        {"Periodo": "March/25", "Bet": 77798034.17, "Ggr": 2155873.29, "AccountingRevenue": 564681.84, "DepositAmount": 15641336.44, "DepositCount": 391224, "FirstDepositsAmount": 24046, "ActiveCustomers": 48941},
+        {"Periodo": "April/25", "Bet": 79780840.69, "Ggr": 2299723.76, "AccountingRevenue": 923063.98, "DepositAmount": 16506101.56, "DepositCount": 451691, "FirstDepositsAmount": 34194, "ActiveCustomers": 64984},
+        {"Periodo": "May/25", "Bet": 83413400.00, "Ggr": 2905520.26, "AccountingRevenue": 1713845.84, "DepositAmount": 16379449.57, "DepositCount": 445053, "FirstDepositsAmount": 22889, "ActiveCustomers": 60025},
+        {"Periodo": "June/25", "Bet": 86644640.72, "Ggr": 3144451.77, "AccountingRevenue": 1962406.34, "DepositAmount": 16972874.91, "DepositCount": 419270, "FirstDepositsAmount": 18784, "ActiveCustomers": 53356},
+        {"Periodo": "July/25", "Bet": 86484658.82, "Ggr": 2833834.21, "AccountingRevenue": 1601311.38, "DepositAmount": 16456861.61, "DepositCount": 407207, "FirstDepositsAmount": 16421, "ActiveCustomers": 49307},
+        {"Periodo": "August/25", "Bet": 84505727.22, "Ggr": 3109335.95, "AccountingRevenue": 1825563.33, "DepositAmount": 16405267.37, "DepositCount": 417493, "FirstDepositsAmount": 15563, "ActiveCustomers": 48312},
+        {"Periodo": "September/25", "Bet": 83399007.07, "Ggr": 2560890.11, "AccountingRevenue": 1312607.79, "DepositAmount": 16181684.11, "DepositCount": 418568, "FirstDepositsAmount": 17528, "ActiveCustomers": 53251},
+        {"Periodo": "October/25", "Bet": 91783681.79, "Ggr": 2298976.46, "AccountingRevenue": 1021722.71, "DepositAmount": 18037390.58, "DepositCount": 474111, "FirstDepositsAmount": 24201, "ActiveCustomers": 64339},
+        {"Periodo": "November/25", "Bet": 95894583.99, "Ggr": 2953839.11, "AccountingRevenue": 1500363.83, "DepositAmount": 16967765.80, "DepositCount": 451049, "FirstDepositsAmount": 15884, "ActiveCustomers": 55155},
+        {"Periodo": "December/25", "Bet": 88223469.95, "Ggr": 3061420.68, "AccountingRevenue": 1735938.26, "DepositAmount": 14782522.06, "DepositCount": 406808, "FirstDepositsAmount": 11943, "ActiveCustomers": 44298},
+        {"Periodo": "January/26", "Bet": 72166119.45, "Ggr": 2352363.74, "AccountingRevenue": 1385569.32, "DepositAmount": 12357170.86, "DepositCount": 348109, "FirstDepositsAmount": 11008, "ActiveCustomers": 41679},
+        {"Periodo": "February/26", "Bet": 54334109.43, "Ggr": 1591515.71, "AccountingRevenue": 847163.76, "DepositAmount": 9933985.84, "DepositCount": 288391, "FirstDepositsAmount": 10472, "ActiveCustomers": 38099},
+        {"Periodo": "March/26", "Bet": 48191498.12, "Ggr": 1160442.75, "AccountingRevenue": 618998.36, "DepositAmount": 8822688.35, "DepositCount": 259159, "FirstDepositsAmount": 10226, "ActiveCustomers": 35965}
     ]
 
     df = pd.DataFrame(dataset_bruto)
     
     df['NGR'] = df['AccountingRevenue']
+    df['BonusCost'] = df['Ggr'] - df['AccountingRevenue']
     df['Hold_Pct'] = (df['Ggr'] / df['Bet'] * 100).round(2)
     df['Bonus_Ratio'] = (df['BonusCost'] / df['Ggr'] * 100).round(2)
-    df['FTD_Ratio'] = (df['FirstDepositsAmount'] / df['DepositAmount'] * 100).round(2)
-    df['ARPU'] = (df['Ggr'] / df['ActiveCustomers']).round(2)
-    df['Retention_Index'] = (df['DepositCount'] / df['ActiveCustomers']).round(2)
-    df['Ticket_Medio_Dep'] = (df['DepositAmount'] / df['DepositCount']).round(2)
     
     ordem_original = [
-        "Fevereiro/25", "Março/25", "Abril/25", "Maio/25", "Junho/25", "Julho/25", 
-        "Agosto/25", "Setembro/25", "Outubro/25", "Novembro/25", "Dezembro/25", 
-        "Janeiro/26", "Fevereiro/26", "Março/26"
+        "February/25", "March/25", "April/25", "May/25", "June/25", "July/25", 
+        "August/25", "September/25", "October/25", "November/25", "December/25", 
+        "January/26", "February/26", "March/26"
     ]
     df['Periodo'] = pd.Categorical(df['Periodo'], categories=ordem_original, ordered=True)
     df = df.sort_values('Periodo').reset_index(drop=True)
@@ -314,41 +312,41 @@ AFFILIATE_MONETARY_COLUMNS = [
 ]
 
 # ==============================================================================
-# 2.1 MOTOR ETL (MICRO): PROCESSADOR DE DADOS DE AFILIADOS JANEIRO (NOVO MÓDULO)
+# 2.1 ETL ENGINE (MICRO): AFFILIATE DATA PROCESSOR (NEW MODULE)
 # ==============================================================================
 
-@st.cache_data(show_spinner="PROCESSANDO MATRIZ DE AFILIADOS...")
+@st.cache_data(show_spinner="PROCESSING AFFILIATE MATRIX...")
 def carregar_motor_afiliados():
     raw_affiliates_janeiro = [
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654570", "Affiliate Name": "Moveup Media Brasil ltda", "FTD": 96, "Net Revenue": 1216105.228, "Revenue Share Reward": 364828.60, "CPA Reward": 111600.00, "FIXED FEE": 0.0, "Total Reward": 476428.60},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654495", "Affiliate Name": "YGA Ventures Ltd", "FTD": 399, "Net Revenue": 3218195.711, "Revenue Share Reward": 1609097.90, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 1609097.90},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654514", "Affiliate Name": "North Star Network", "FTD": 271, "Net Revenue": 1900693.19, "Revenue Share Reward": 665242.60, "CPA Reward": 0.0, "FIXED FEE": 1334757.40, "Total Reward": 2000000.00},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654634", "Affiliate Name": "Influx Online", "FTD": 27, "Net Revenue": 806765.384, "Revenue Share Reward": 242026.60, "CPA Reward": 43200.00, "FIXED FEE": 0.0, "Total Reward": 285226.60},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654429", "Affiliate Name": "GNY / Streamer", "FTD": 34, "Net Revenue": 966416.935, "Revenue Share Reward": 289925.10, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 289925.10},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654430", "Affiliate Name": "Xioguto / Streamer", "FTD": 2, "Net Revenue": 359376.354, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654487", "Affiliate Name": "Armoni Solucoes e Intermediacoes em Negocios Web", "FTD": 6, "Net Revenue": 830025.384, "Revenue Share Reward": 249007.60, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 249007.60},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654476", "Affiliate Name": "Markola", "FTD": 19, "Net Revenue": 539155.799, "Revenue Share Reward": 161743.70, "CPA Reward": 40800.00, "FIXED FEE": 0.0, "Total Reward": 202543.70},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654553", "Affiliate Name": "EMPREENDEDOR VISIONARIO TREINAMENTOS EIRELI ME", "FTD": 27, "Net Revenue": 521595.296, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 600000.00, "Total Reward": 600000.00},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654604", "Affiliate Name": "League of Entertainment", "FTD": 42, "Net Revenue": 764335.562, "Revenue Share Reward": 229300.70, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 229300.70},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654825", "Affiliate Name": "Playhill Brasil Ltda", "FTD": 13, "Net Revenue": -37141.224, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654828", "Affiliate Name": "Talking & Gaming", "FTD": 19, "Net Revenue": 443151.076, "Revenue Share Reward": 132942.30, "CPA Reward": 12000.00, "FIXED FEE": 0.0, "Total Reward": 144942.30},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654649", "Affiliate Name": "abratabaca", "FTD": 273, "Net Revenue": -259292.988, "Revenue Share Reward": 0.0, "CPA Reward": 199200.00, "FIXED FEE": 0.0, "Total Reward": 199200.00},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654503", "Affiliate Name": "souograndi", "FTD": 7, "Net Revenue": 247665.185, "Revenue Share Reward": 12383.30, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 12383.30},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654547", "Affiliate Name": "nokainlive", "FTD": 3, "Net Revenue": 46999.613, "Revenue Share Reward": 14096.90, "CPA Reward": 3600.00, "FIXED FEE": 0.0, "Total Reward": 17696.90},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654433", "Affiliate Name": "Binao", "FTD": 54, "Net Revenue": 116458.959, "Revenue Share Reward": 29112.20, "CPA Reward": 32400.00, "FIXED FEE": 0.0, "Total Reward": 61512.20},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654446", "Affiliate Name": "FABINHO AEP PRODUCAO DE VIDEOS LTDA", "FTD": 15, "Net Revenue": 366722.089, "Revenue Share Reward": 36672.20, "CPA Reward": 0.0, "FIXED FEE": 203327.80, "Total Reward": 240000.00},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654614", "Affiliate Name": "Bieldomaul", "FTD": 0, "Net Revenue": 52.0308, "Revenue Share Reward": 12.76, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 12.76},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654691", "Affiliate Name": "afiliado@betpass.me", "FTD": 29, "Net Revenue": -3237.959, "Revenue Share Reward": 0.0, "CPA Reward": 2340.00, "FIXED FEE": 0.0, "Total Reward": 2340.00},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654440", "Affiliate Name": "FURIAGAMES", "FTD": 41, "Net Revenue": -151890.6761, "Revenue Share Reward": 4773.90, "CPA Reward": 2880.00, "FIXED FEE": 0.0, "Total Reward": 3357.39},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654546", "Affiliate Name": "Pay Instituicao de Pagamento S/A", "FTD": 5, "Net Revenue": -223512.10, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654543", "Affiliate Name": "Ninjabet", "FTD": 2, "Net Revenue": -54409.789, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654544", "Affiliate Name": "Klauslol", "FTD": 14, "Net Revenue": 22720.984, "Revenue Share Reward": 7948.80, "CPA Reward": 21600.00, "FIXED FEE": 0.0, "Total Reward": 29548.80},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "655459", "Affiliate Name": "Partners", "FTD": 0, "Net Revenue": 0.0, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "655266", "Affiliate Name": "VOLTZ AFFILIATES BR", "FTD": 1, "Net Revenue": -250.85, "Revenue Share Reward": 0.0, "CPA Reward": 1800.00, "FIXED FEE": 0.0, "Total Reward": 1800.00},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "655372", "Affiliate Name": "Cassius Ogro", "FTD": 1, "Net Revenue": 2387.573, "Revenue Share Reward": 594.40, "CPA Reward": 1200.00, "FIXED FEE": 0.0, "Total Reward": 1794.40},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654824", "Affiliate Name": "OC GROUP TECNOLOGIA DA INFORMACAO LTDA", "FTD": 15, "Net Revenue": 25821.173, "Revenue Share Reward": 7743.40, "CPA Reward": 12000.00, "FIXED FEE": 0.0, "Total Reward": 19743.40},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654830", "Affiliate Name": "pichucas", "FTD": 3, "Net Revenue": 107214.406, "Revenue Share Reward": 26801.10, "CPA Reward": 9000.00, "FIXED FEE": 0.0, "Total Reward": 35801.10},
-        {"Periodo": "Janeiro/26", "Affiliate ID": "654551", "Affiliate Name": "Carlos Figueira MMA", "FTD": 53, "Net Revenue": 83077.796, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 50000.00, "Total Reward": 50000.00}
+        {"Periodo": "January/26", "Affiliate ID": "654570", "Affiliate Name": "Moveup Media Brasil ltda", "FTD": 96, "Net Revenue": 1216105.228, "Revenue Share Reward": 364828.60, "CPA Reward": 111600.00, "FIXED FEE": 0.0, "Total Reward": 476428.60},
+        {"Periodo": "January/26", "Affiliate ID": "654495", "Affiliate Name": "YGA Ventures Ltd", "FTD": 399, "Net Revenue": 3218195.711, "Revenue Share Reward": 1609097.90, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 1609097.90},
+        {"Periodo": "January/26", "Affiliate ID": "654514", "Affiliate Name": "North Star Network", "FTD": 271, "Net Revenue": 1900693.19, "Revenue Share Reward": 665242.60, "CPA Reward": 0.0, "FIXED FEE": 1334757.40, "Total Reward": 2000000.00},
+        {"Periodo": "January/26", "Affiliate ID": "654634", "Affiliate Name": "Influx Online", "FTD": 27, "Net Revenue": 806765.384, "Revenue Share Reward": 242026.60, "CPA Reward": 43200.00, "FIXED FEE": 0.0, "Total Reward": 285226.60},
+        {"Periodo": "January/26", "Affiliate ID": "654429", "Affiliate Name": "GNY / Streamer", "FTD": 34, "Net Revenue": 966416.935, "Revenue Share Reward": 289925.10, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 289925.10},
+        {"Periodo": "January/26", "Affiliate ID": "654430", "Affiliate Name": "Xioguto / Streamer", "FTD": 2, "Net Revenue": 359376.354, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "January/26", "Affiliate ID": "654487", "Affiliate Name": "Armoni Solucoes e Intermediacoes em Negocios Web", "FTD": 6, "Net Revenue": 830025.384, "Revenue Share Reward": 249007.60, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 249007.60},
+        {"Periodo": "January/26", "Affiliate ID": "654476", "Affiliate Name": "Markola", "FTD": 19, "Net Revenue": 539155.799, "Revenue Share Reward": 161743.70, "CPA Reward": 40800.00, "FIXED FEE": 0.0, "Total Reward": 202543.70},
+        {"Periodo": "January/26", "Affiliate ID": "654553", "Affiliate Name": "EMPREENDEDOR VISIONARIO TREINAMENTOS EIRELI ME", "FTD": 27, "Net Revenue": 521595.296, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 600000.00, "Total Reward": 600000.00},
+        {"Periodo": "January/26", "Affiliate ID": "654604", "Affiliate Name": "League of Entertainment", "FTD": 42, "Net Revenue": 764335.562, "Revenue Share Reward": 229300.70, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 229300.70},
+        {"Periodo": "January/26", "Affiliate ID": "654825", "Affiliate Name": "Playhill Brasil Ltda", "FTD": 13, "Net Revenue": -37141.224, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "January/26", "Affiliate ID": "654828", "Affiliate Name": "Talking & Gaming", "FTD": 19, "Net Revenue": 443151.076, "Revenue Share Reward": 132942.30, "CPA Reward": 12000.00, "FIXED FEE": 0.0, "Total Reward": 144942.30},
+        {"Periodo": "January/26", "Affiliate ID": "654649", "Affiliate Name": "abratabaca", "FTD": 273, "Net Revenue": -259292.988, "Revenue Share Reward": 0.0, "CPA Reward": 199200.00, "FIXED FEE": 0.0, "Total Reward": 199200.00},
+        {"Periodo": "January/26", "Affiliate ID": "654503", "Affiliate Name": "souograndi", "FTD": 7, "Net Revenue": 247665.185, "Revenue Share Reward": 12383.30, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 12383.30},
+        {"Periodo": "January/26", "Affiliate ID": "654547", "Affiliate Name": "nokainlive", "FTD": 3, "Net Revenue": 46999.613, "Revenue Share Reward": 14096.90, "CPA Reward": 3600.00, "FIXED FEE": 0.0, "Total Reward": 17696.90},
+        {"Periodo": "January/26", "Affiliate ID": "654433", "Affiliate Name": "Binao", "FTD": 54, "Net Revenue": 116458.959, "Revenue Share Reward": 29112.20, "CPA Reward": 32400.00, "FIXED FEE": 0.0, "Total Reward": 61512.20},
+        {"Periodo": "January/26", "Affiliate ID": "654446", "Affiliate Name": "FABINHO AEP PRODUCAO DE VIDEOS LTDA", "FTD": 15, "Net Revenue": 366722.089, "Revenue Share Reward": 36672.20, "CPA Reward": 0.0, "FIXED FEE": 203327.80, "Total Reward": 240000.00},
+        {"Periodo": "January/26", "Affiliate ID": "654614", "Affiliate Name": "Bieldomaul", "FTD": 0, "Net Revenue": 52.0308, "Revenue Share Reward": 12.76, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 12.76},
+        {"Periodo": "January/26", "Affiliate ID": "654691", "Affiliate Name": "afiliado@betpass.me", "FTD": 29, "Net Revenue": -3237.959, "Revenue Share Reward": 0.0, "CPA Reward": 2340.00, "FIXED FEE": 0.0, "Total Reward": 2340.00},
+        {"Periodo": "January/26", "Affiliate ID": "654440", "Affiliate Name": "FURIAGAMES", "FTD": 41, "Net Revenue": -151890.6761, "Revenue Share Reward": 4773.90, "CPA Reward": 2880.00, "FIXED FEE": 0.0, "Total Reward": 3357.39},
+        {"Periodo": "January/26", "Affiliate ID": "654546", "Affiliate Name": "Pay Instituicao de Pagamento S/A", "FTD": 5, "Net Revenue": -223512.10, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "January/26", "Affiliate ID": "654543", "Affiliate Name": "Ninjabet", "FTD": 2, "Net Revenue": -54409.789, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "January/26", "Affiliate ID": "654544", "Affiliate Name": "Klauslol", "FTD": 14, "Net Revenue": 22720.984, "Revenue Share Reward": 7948.80, "CPA Reward": 21600.00, "FIXED FEE": 0.0, "Total Reward": 29548.80},
+        {"Periodo": "January/26", "Affiliate ID": "655459", "Affiliate Name": "Partners", "FTD": 0, "Net Revenue": 0.0, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 0.0},
+        {"Periodo": "January/26", "Affiliate ID": "655266", "Affiliate Name": "VOLTZ AFFILIATES BR", "FTD": 1, "Net Revenue": -250.85, "Revenue Share Reward": 0.0, "CPA Reward": 1800.00, "FIXED FEE": 0.0, "Total Reward": 1800.00},
+        {"Periodo": "January/26", "Affiliate ID": "655372", "Affiliate Name": "Cassius Ogro", "FTD": 1, "Net Revenue": 2387.573, "Revenue Share Reward": 594.40, "CPA Reward": 1200.00, "FIXED FEE": 0.0, "Total Reward": 1794.40},
+        {"Periodo": "January/26", "Affiliate ID": "654824", "Affiliate Name": "OC GROUP TECNOLOGIA DA INFORMACAO LTDA", "FTD": 15, "Net Revenue": 25821.173, "Revenue Share Reward": 7743.40, "CPA Reward": 12000.00, "FIXED FEE": 0.0, "Total Reward": 19743.40},
+        {"Periodo": "January/26", "Affiliate ID": "654830", "Affiliate Name": "pichucas", "FTD": 3, "Net Revenue": 107214.406, "Revenue Share Reward": 26801.10, "CPA Reward": 9000.00, "FIXED FEE": 0.0, "Total Reward": 35801.10},
+        {"Periodo": "January/26", "Affiliate ID": "654551", "Affiliate Name": "Carlos Figueira MMA", "FTD": 53, "Net Revenue": 83077.796, "Revenue Share Reward": 0.0, "CPA Reward": 0.0, "FIXED FEE": 50000.00, "Total Reward": 50000.00}
     ]
 
     raw_affiliates_fevereiro = [
@@ -466,15 +464,12 @@ def carregar_motor_afiliados():
         {"Affiliate ID": "654459", "Affiliate Name": "Better Collective Brazil Ltda BCCPH22BR", "FTD": 46, "Net Revenue": 58687732.00, "Revenue Share Reward": 27117643.00, "CPA Reward": 0.0, "FIXED FEE": 0.0, "Total Reward": 27117643.00}
     ]
 
-    for row in raw_affiliates_fevereiro:
-        row["Periodo"] = "Fevereiro/26"
-    for row in raw_affiliates_marco:
-        row["Periodo"] = "Março/26"
+    for row in raw_affiliates_fevereiro: row["Periodo"] = "February/26"
+    for row in raw_affiliates_marco: row["Periodo"] = "March/26"
 
     df_aff = pd.DataFrame(raw_affiliates_janeiro + raw_affiliates_fevereiro + raw_affiliates_marco)
 
-    # Corrige as bases brutas que vieram multiplicadas por 10.000.
-    mask_bruto = df_aff["Periodo"].isin(["Fevereiro/26", "Março/26"])
+    mask_bruto = df_aff["Periodo"].isin(["February/26", "March/26"])
     for col in AFFILIATE_MONETARY_COLUMNS:
         df_aff[col] = pd.to_numeric(df_aff[col], errors="coerce").fillna(0)
         df_aff.loc[mask_bruto, col] = df_aff.loc[mask_bruto, col] / AFFILIATE_MONETARY_DIVISOR
@@ -484,14 +479,14 @@ def carregar_motor_afiliados():
 df_afiliados = carregar_motor_afiliados()
 
 # ==============================================================================
-# 3. INTERFACE EXECUTIVA: O RELATÓRIO DE CONSULTORIA SÊNIOR
+# 3. EXECUTIVE INTERFACE: SENIOR CONSULTING REPORT
 # ==============================================================================
 if df_audit is not None and not df_audit.empty:
     
     col_h1, col_h2 = st.columns([3, 1])
     with col_h1:
-        st.title("🏦 FINANCE ANALYSIS")
-        st.markdown(f"**Confidencial | Data:** {datetime.datetime.now().strftime('%d/%m/%Y')} | **Status:** Ciclo FEV/25 - MAR/26")
+        st.title("🏦 STRATEGIC FINANCE ANALYSIS")
+        st.markdown(f"**Confidential | Extraction Date:** {datetime.datetime.now().strftime('%m/%d/%Y')} | **Status:** Cycle FEB/25 - MAR/26")
     with col_h2:
         st.markdown("""
             <div style='text-align:right; margin-top:15px;'>
@@ -503,90 +498,96 @@ if df_audit is not None and not df_audit.empty:
     
     st.markdown("<hr style='border-top: 2px solid #334155; margin-top: 5px; margin-bottom: 30px;'>", unsafe_allow_html=True)
     
-    st.sidebar.markdown("<h2 style='color:#FFFFFF; font-weight:800; font-size:1.4rem; margin-bottom:10px;'>ESTRATÉGIA</h2>", unsafe_allow_html=True)
+    st.sidebar.markdown("<h2 style='color:#FFFFFF; font-weight:800; font-size:1.4rem; margin-bottom:10px;'>INDEX</h2>", unsafe_allow_html=True)
     menu = st.sidebar.radio("", [
         "1. Executive Summary & Alerts",
         "2. Macro-Trends & Dynamic Analytics",
-        "3. Raio-X Operacional (Mês a Mês)",
-        "4. Capital Efficiency & Elasticity",
-        "5. Market Share & Unit Economics",
-        "6. Roadmap Strategy: 90 Days",
-        "7. Technical Mathematical Repository",
-        "8. Scenario Simulator (Predictive)",
-        "9. Anomaly & Fraud Detection",
-        "10. Affiliate Performance (Top/Bottom 20)"
+        "3. Operational Deep-Dive (Monthly)",
+        "4. Market Share & Unit Economics",
+        "5. Decision Simulator (What-If?)",
+        "6. Anomaly & Fraud Detection",
+        "7. Affiliate Performance (Top/Bottom 20)",
+        "8. Brazil Finance Outlook"
     ])
     
     st.sidebar.markdown("<hr style='border-top: 1px dashed #334155;'>", unsafe_allow_html=True)
     
     ult = df_audit.iloc[-1]
-    st.sidebar.markdown("### ⚡ Live Pulse (Last Cycle)")
-    st.sidebar.metric("FTD Velocity", f"R$ {ult['FirstDepositsAmount']/1e6:.2f}M", f"{ult['Delta_FirstDepositsAmount_Pct']:.1f}%")
-    st.sidebar.metric("Hold Yield", f"{ult['Hold_Pct']}%", f"{ult['Hold_Pct'] - df_audit.iloc[-2]['Hold_Pct']:.2f}%")
 
     if menu == "1. Executive Summary & Alerts":
-        st.markdown("<h2 class='section-title'>1. Diagnóstico do Ciclo (Fev/25 - Mar/26)</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class='section-title'>1. Cycle Diagnosis (Feb/25 - Mar/26)</h2>", unsafe_allow_html=True)
         st.markdown(""" 
         <div class='consultant-report'>
-        <b>PARECER TÉCNICO: ESTADO DE EXAUSTÃO ESTRUTURAL</b><br><br>
-        A análise Comportamental dos 14 meses de dados consolidados aponta para um cenário onde a operação atingiu seu <b>ponto de saturação tática em Outubro/2025</b>. A partir de então, verificamos um decréscimo severo no vetor de oxigenação da base (FTD).<br><br>
-        <b>Os 3 Pilares do Problema Atual:</b><br>
-        <ul style="margin-top: 10px; margin-bottom: 10px;">
-            <li><b>O Colapso do FTD (New Money):</b> A aquisição de capital inédito despencou. Passamos de uma média de R$ 6M para R$ 1.8M em Março/26. A plataforma deixou de trazer tráfego fresco, dependendo da reciclagem de veteranos.</li>
-            <li><b>A Armadilha do Bônus (Bonus Trap):</b> Para frear a perda de jogadores (Churn), a operação abriu as torneiras de bonificação de forma incondicional. O <i>Bonus Ratio</i> explodiu para níveis insustentáveis, devorando o GGR.</li>
-            <li><b>Canibalização de Orçamento:</b> O capital que deveria estar sendo investido em CPA e afiliados (Aquisição) está sendo queimado em bônus para sustentar uma base que não deposita mais dinheiro real fiduciário.</li>
-        </ul>
-        <i><b>Decisão Requerida:</b> Redirecionamento imediato de 35% do orçamento de Retenção (Bônus) para Aquisição de Tráfego de Alta Intenção (Google/SEO/Influenciadores Tier-1) para quebrar o teto de faturamento atual.</i>
+        <b>TECHNICAL OPINION: EVOLUTIONARY ANALYSIS BY QUARTERS (Q1/25 to Q1/26)</b><br><br>
+        The decomposition of the cycle by quarters reveals the transition from an aggressive traction phase to the current scenario of systemic exhaustion and retraction:<br><br>
+        
+        <b>▶ Q1 & Q2 2025 (Traction & Scale Phase):</b><br>
+        Period marked by strong acquisition. The volume of new users (FTD) reached an all-time peak in April/25 (34k). The Handle (Wagered) scaled rapidly from the $ 75M to $ 86M range, driven by new capital (New Money).<br><br>
+        
+        <b>▶ Q3 2025 (Plateau & Stabilization):</b><br>
+        The wagered volume remained resilient in the $ 83M - $ 86M range. However, the entry of new users fell back to an average of 16k/month. The operation began to rely more on recycling active base capital (retention) than on new entrants.<br><br>
+
+        <b>▶ Q4 2025 (The Illusory Peak & Promotional Trap):</b><br>
+        We recorded the historical Handle record in November/25 ($ 95.8M) and the GGR peak in December ($ 3.06M). However, deep analysis shows that this growth was "bought" at the expense of aggressive bonuses. The NGR did not grow in the same geometric proportion as the GGR.<br><br>
+        
+        <b>▶ Q1 2026 (Structural Retraction & Exhaustion):</b><br>
+        The current scenario. A free fall in all liquidity indicators. The Handle plummeted to $ 48.1M in March/26 (half of the Q4 peak). The FTD volume returned to the 10k baseline. The veteran base suffered natural churn and the promotional taps of the past ceased to have an effect.<br><br>
+
+        <i><b>Required Decision:</b> Immediate redirection of 35% of the Retention budget (Bonus) to High-Intent Traffic Acquisition (CPA/Affiliates) to oxygenate the top of the funnel and reverse the Q1/26 retraction.</i>
         </div>
         """, unsafe_allow_html=True)
         
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric("FTD (MARÇO/26)", f"R$ {ult['FirstDepositsAmount']:,.0f}", f"{ult['Delta_FirstDepositsAmount_Pct']:.1f}%")
-        c2.metric("GGR (RECEITA BRUTA)", f"R$ {ult['Ggr']:,.0f}", f"{ult['Delta_Ggr_Pct']:.1f}%")
-        c3.metric("HOLD CONSOLIDADO", f"{ult['Hold_Pct']}%", f"{ult['Hold_Pct']-3:.2f}% vs Meta")
-        c4.metric("MAU (ATIVOS)", f"{ult['ActiveCustomers']:,.0f}", f"{ult['Delta_ActiveCustomers_Pct']:.1f}%")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("WAGERED (HANDLE)", f"$ {ult['Bet']:,.0f}", f"{ult['Delta_Bet_Pct']:.1f}%")
+        c2.metric("GROSS REVENUE (GGR)", f"$ {ult['Ggr']:,.0f}", f"{ult['Delta_Ggr_Pct']:.1f}%")
+        c3.metric("NET REVENUE (NGR)", f"$ {ult['NGR']:,.0f}", f"{ult['Delta_NGR_Pct']:.1f}%")
+        
+        c4, c5, c6 = st.columns(3)
+        c4.metric("DEPOSITS", f"$ {ult['DepositAmount']:,.0f}", f"{ult['Delta_DepositAmount_Pct']:.1f}%")
+        c5.metric("ACTIVE USERS", f"{ult['ActiveCustomers']:,.0f}", f"{ult['Delta_ActiveCustomers_Pct']:.1f}%")
+        c6.metric("CONSOLIDATED HOLD", f"{ult['Hold_Pct']}%", "")
 
     elif menu == "2. Macro-Trends & Dynamic Analytics":
-        st.markdown("<h2 class='section-title'>2. Dashboard Macro-Trends (14 Meses)</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class='section-title'>2. Macro-Trends Dashboard (14 Months)</h2>", unsafe_allow_html=True)
         
         c_g1, c_g2 = st.columns(2)
         with c_g1:
             fig_1 = make_subplots(specs=[[{"secondary_y": True}]])
-            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='HANDLE (LIQUIDEZ)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5 )), secondary_y=False)
-            fig_1.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['Ggr'], name='GGR (RECEITA BRUTA)', marker_color='#10B981', opacity=0.9, width=0.6), secondary_y=True)
-            fig_1 = aplicar_template_financeiro(fig_1, "Evolução do Histórico: Volume x Receita Bruta")
-            fig_1.update_yaxes(title_text="<b>HANDLE (Lado Esquerdo)</b>", color="#FFFFFF", secondary_y=False)
-            fig_1.update_yaxes(title_text="<b>GGR (Lado Direito)</b>", color="#FFFFFF", secondary_y=True)
+            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='HANDLE (LIQUIDITY)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5 )), secondary_y=False)
+            fig_1.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['Ggr'], name='GGR (GROSS REVENUE)', marker_color='#10B981', opacity=0.9, width=0.6), secondary_y=True)
+            fig_1 = aplicar_template_financeiro(fig_1, "Historical Evolution: Volume vs Gross Revenue")
+            fig_1.update_yaxes(title_text="<b>HANDLE (Left Side)</b>", color="#FFFFFF", secondary_y=False)
+            fig_1.update_yaxes(title_text="<b>GGR (Right Side)</b>", color="#FFFFFF", secondary_y=True)
             st.plotly_chart(fig_1, use_container_width=True)
         
         with c_g2:
             fig_2 = make_subplots(specs=[[{"secondary_y": True}]])
-            fig_2.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['DepositAmount'], name='DEPÓSITOS (R$)', marker_color='#8B5CF6'), secondary_y=False)
-            fig_2.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['ActiveCustomers'], name='ATIVOS (MAU)', mode='lines+markers', line=dict(color='#F59E0B', width=4)), secondary_y=True)
-            fig_2 = aplicar_template_financeiro(fig_2, "Matriz de Captação: Depósitos x Usuários")
-            fig_2.update_yaxes(title_text="R$", secondary_y=False)
-            fig_2.update_yaxes(title_text="Quantidade", secondary_y=True)
+            fig_2.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['DepositAmount'], name='DEPOSITS (USD)', marker_color='#8B5CF6'), secondary_y=False)
+            fig_2.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['ActiveCustomers'], name='ACTIVE USERS (MAU)', mode='lines+markers', line=dict(color='#F59E0B', width=4)), secondary_y=True)
+            fig_2 = aplicar_template_financeiro(fig_2, "Funding Matrix: Deposits vs Users")
+            fig_2.update_yaxes(title_text="USD", secondary_y=False)
+            fig_2.update_yaxes(title_text="Quantity", secondary_y=True)
             st.plotly_chart(fig_2, use_container_width=True)
 
         c_g3, c_g4 = st.columns(2)
         with c_g3:
             fig_3 = go.Figure()
             fig_3.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['FirstDepositsAmount'], name='FTD (NEW MONEY)', marker_color='#14B8A6'))
-            fig_3 = aplicar_template_financeiro(fig_3, "Tendência de Captação (FTD Velocity)")
+            fig_3 = aplicar_template_financeiro(fig_3, "Acquisition Trend (FTD Velocity)")
             st.plotly_chart(fig_3, use_container_width=True)
 
         with c_g4:
             fig_4 = make_subplots(specs=[[{"secondary_y": True}]])
-            fig_4.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['BonusCost'], name='CUSTO BÔNUS', marker_color='#F43F5E'), secondary_y=False)
+            fig_4.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['BonusCost'], name='BONUS COST', marker_color='#F43F5E'), secondary_y=False)
             fig_4.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bonus_Ratio'], name='RATIO %', line=dict(color='#FFFFFF', width=3)), secondary_y=True)
-            fig_4 = aplicar_template_financeiro(fig_4, "Pressão Promocional vs Margem de Contribuição")
+            fig_4 = aplicar_template_financeiro(fig_4, "Promotional Pressure vs Contribution Margin")
             st.plotly_chart(fig_4, use_container_width=True)
 
-        st.markdown("### 📊 Tabela Analítica: Performance MoM Auditada")
+        st.markdown("### 📊 Analytical Table: Audited MoM Performance")
         st.dataframe(df_audit[['Periodo', 'Delta_Bet_Pct', 'Delta_Ggr_Pct', 'Delta_DepositAmount_Pct', 'Delta_FirstDepositsAmount_Pct', 'Bonus_Ratio']].style.format(precision=2), use_container_width=True)
 
-    elif menu == "3. Raio-X Operacional (Mês a Mês)":
-        st.markdown("<h2 class='section-title'>3. Decomposição Financeira por Ciclo Fiscal</h2>", unsafe_allow_html=True)
+    elif menu == "3. Operational Deep-Dive (Monthly)":
+        st.markdown("<h2 class='section-title'>3. Monthly Financial Decomposition</h2>", unsafe_allow_html=True)
         st.markdown("""
         <style>
         [data-testid="stMetricValue"] > div {
@@ -614,274 +615,112 @@ if df_audit is not None and not df_audit.empty:
         </style>
         """, unsafe_allow_html=True)
         meses_select = [str(m) for m in df_audit['Periodo'].tolist()]
-        mes_foco = st.selectbox("Selecione o período contábil de análise:", meses_select)
+        mes_foco = st.selectbox("Select the accounting period for analysis:", meses_select)
         d = df_audit[df_audit['Periodo'] == mes_foco].iloc[0]
         
         st.markdown("<br>", unsafe_allow_html=True)
         c1, c2, c3, c4, c5, c6 = st.columns(6)
-        c1.metric("Handle", f"R$ {d['Bet']:,.0f}", f"{d.get('Delta_Bet_Pct', 0):.1f}%")
-        c2.metric("GGR", f"R$ {d['Ggr']:,.0f}", f"{d.get('Delta_Ggr_Pct', 0):.1f}%")
-        c3.metric("NGR", f"R$ {d['NGR']:,.0f}", f"{d.get('Delta_NGR_Pct', 0):.1f}%")
-        c4.metric("Depósitos", f"R$ {d['DepositAmount']:,.0f}", f"{d.get('Delta_DepositAmount_Pct', 0):.1f}%")
-        c5.metric("Ativos", f"{d['ActiveCustomers']:,.0f}", f"{d.get('Delta_ActiveCustomers_Pct', 0):.1f}%")
-        c6.metric("Margem", f"{d['Hold_Pct']}%")
+        c1.metric("Handle", f"$ {d['Bet']:,.0f}", f"{d.get('Delta_Bet_Pct', 0):.1f}%")
+        c2.metric("GGR", f"$ {d['Ggr']:,.0f}", f"{d.get('Delta_Ggr_Pct', 0):.1f}%")
+        c3.metric("NGR", f"$ {d['NGR']:,.0f}", f"{d.get('Delta_NGR_Pct', 0):.1f}%")
+        c4.metric("Deposits", f"$ {d['DepositAmount']:,.0f}", f"{d.get('Delta_DepositAmount_Pct', 0):.1f}%")
+        c5.metric("Active Users", f"{d['ActiveCustomers']:,.0f}", f"{d.get('Delta_ActiveCustomers_Pct', 0):.1f}%")
+        c6.metric("Margin (Hold)", f"{d['Hold_Pct']}%")
 
         st.markdown("<br>", unsafe_allow_html=True)
-        c7, c8, c9, c10 = st.columns(4)
-        c7.metric("Ticket Médio", f"R$ {d['Ticket_Medio_Dep']:,.2f}")
-        c8.metric("ARPU", f"R$ {d['ARPU']:,.2f}")
-        c9.metric("FTD Ratio", f"{d['FTD_Ratio']}%")
-        c10.metric("Bonus Ratio", f"{d['Bonus_Ratio']}%")
+        st.metric("Bonus Ratio (Promotional Cost over GGR)", f"{d['Bonus_Ratio']}%")
         
-        col_t1, col_t2 = st.columns(2)
-        with col_t1:
-            st.markdown(f"""
-            <div class='kpi-block'>
-                <div class='kpi-title'>📍 Elasticidade de Produto (Handle vs Hold)</div>
-                <div class='kpi-text'>
-                Volume: R$ {d['Bet']:,.2f}.<br>
-                <b>Leitura:</b> Hold em {d['Hold_Pct']}%, dentro do padrão da indústria. A pressão está mais em volume do que em produto.
-                <br><br><b>ARPU:</b> R$ {d['ARPU']:,.2f} por ativo.
-                </div>
+        st.markdown(f"""
+        <div class='kpi-block'>
+            <div class='kpi-title'>💸 Acquisition Engine (New Money) vs Promotional Cost</div>
+            <div class='kpi-text'>
+            <b>New Depositors (FTD):</b> {d['FirstDepositsAmount']:,.0f} units.<br>
+            <b>Bonus Cost:</b> $ {d['BonusCost']:,.2f} ({d['Bonus_Ratio']}% of Gross GGR).<br><br>
+            <i>The ratio between acquisition and promotional cost reflects the weight of retention investment compared to the actual new money injected into the ecosystem during the selected month.</i>
             </div>
-            """, unsafe_allow_html=True)
-        with col_t2:
-            st.markdown(f"""
-            <div class='kpi-block'>
-                <div class='kpi-title'>💸 Motor de Aquisição (New Money)</div>
-                <div class='kpi-text'>
-                FTD: R$ {d['FirstDepositsAmount']:,.2f}.<br>
-                <b>Leitura:</b> O FTD Ratio de {d['FTD_Ratio']}% ainda não compensa o churn.
-                <br><br><b>Bônus:</b> R$ {d['BonusCost']:,.2f} ({d['Bonus_Ratio']}% do GGR).
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+        </div>
+        """, unsafe_allow_html=True)
 
-        st.markdown("### 📊 Cascata de Receita (De GGR para NGR)")
+        st.markdown("### 📊 Revenue Waterfall (From GGR to NGR)")
         fig_waterfall = go.Figure(go.Waterfall(
             name="20", orientation="v",
             measure=["relative", "relative", "total"],
-            x=["GGR (Receita Bruta)", "Custo de Bônus / Deduções", "NGR (Receita Líquida)"],
+            x=["GGR (Gross Revenue)", "Bonus Cost / Deductions", "NGR (Net Revenue)"],
             textposition="outside",
-            text=[f"R$ {d['Ggr']/1e6:.1f}M", f"-R$ {d['BonusCost']/1e6:.1f}M", f"R$ {d['NGR']/1e6:.1f}M"],
+            text=[f"$ {d['Ggr']/1e6:.1f}M", f"-$ {d['BonusCost']/1e6:.1f}M", f"$ {d['NGR']/1e6:.1f}M"],
             y=[d['Ggr'], -d['BonusCost'], d['NGR']],
             connector={"line": {"color": "rgb(63, 63, 63)", "width": 2}},
             decreasing={"marker": {"color": "#F43F5E"}},
             increasing={"marker": {"color": "#10B981"}},
             totals={"marker": {"color": "#38BDF8"}}
         ))
-        fig_waterfall = aplicar_template_financeiro(fig_waterfall, f"Composição de Margem Líquida - {mes_foco}")
+        fig_waterfall = aplicar_template_financeiro(fig_waterfall, f"Net Margin Composition - {mes_foco}")
         st.plotly_chart(fig_waterfall, use_container_width=True)
         
         st.markdown(f"""
         <div class='consultant-report'>
-        <b>DIAGNÓSTICO APROFUNDADO DO MÊS ({mes_foco.upper()}):</b><br>
-        • Ticket médio de depósito em <b>R$ {d['Ticket_Medio_Dep']:,.2f}</b>.<br>
-        • O custo promocional consumiu <b>{d['Bonus_Ratio']}%</b> do GGR.<br>
-        • O <b>FTD Ratio</b> está em {d['FTD_Ratio']}%, ainda abaixo da faixa ideal para sustentar crescimento com menor pressão sobre bônus.
+        <b>IN-DEPTH DIAGNOSIS OF THE MONTH ({mes_foco.upper()}):</b><br>
+        The promotional cost consumed <b>{d['Bonus_Ratio']}%</b> of the GGR. The evolution or retraction in <b>NGR (Net Revenue)</b> signals the direct impact of the promotional escalation vs. the tangible profit of the company after liquidation of active deductions.
         </div>
         """, unsafe_allow_html=True)
 
-    elif menu == "4. Capital Efficiency & Elasticity":
-        st.markdown("<h2 class='section-title'>4. Teoria da Elasticidade Aplicada</h2>", unsafe_allow_html=True)
-        st.markdown("""
-        <div class='consultant-report'>
-        <b>ANÁLISE DE SENSIBILIDADE DO FLUXO DE CAIXA:</b><br><br>
-        O cruzamento dos dados de 2025 com o Q1/2026 revela um fenômeno de <b>Fadiga de Retenção</b>. <br><br>
-        <b>1. Elasticidade de Aquisição Inelástica:</b> A nossa curva de FTDs despencou, indicando que a injeção de capital novo não está respondendo ao estímulo. Mantivemos contas altas de Afiliados, mas a quantidade demandada de novos depósitos é inelástica ao gasto atual.<br><br>
-        <b>2. Elasticidade de Retenção Altamente Sensível:</b> A base veterana condicionou o jogo ao bônus. No entanto, o bônus não gera mais ROI, pois não há FTD suficiente para substituir o capital que "vaza" no churn natural.
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown("### 🧪 Simulação Executiva de Redução de Bônus")
-        c_e1, c_e2 = st.columns([1, 2])
-        with c_e1:
-            reducao_bonus = st.slider("Redução simulada de bônus (%)", 0, 60, 25, 5)
-            pct_reinvestimento = st.slider("Parcela reinvestida em aquisição (%)", 0, 100, 70, 5)
-            st.markdown("""
-            <div class='kpi-block'>
-                <div class='kpi-title'>Premissas do modelo</div>
-                <div class='kpi-text'>
-                • Parte da economia em bônus pode ser redirecionada para aquisição.<br>
-                • Parte da base ativa reage negativamente ao corte promocional.<br>
-                • O objetivo é mostrar <b>ordem de grandeza</b> do impacto em caixa, não projeção contábil final.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        with c_e2:
-            bonus_base = ult['BonusCost']
-            depositos_base = ult['DepositAmount']
-            ngr_base = ult['NGR']
-            ativos_base = ult['ActiveCustomers']
-            ftd_base = ult['FirstDepositsAmount']
-            ativos_mes_anterior = df_audit.iloc[-2]['ActiveCustomers']
-
-            corte_bonus = reducao_bonus / 100
-            reinvestimento = pct_reinvestimento / 100
-
-            economia_bonus = bonus_base * corte_bonus
-            verba_aquisicao = economia_bonus * reinvestimento
-
-            # Premissas conservadoras para leitura executiva
-            lift_ftd_por_reinvestimento = 0.40
-            pressao_sobre_depositos_existentes = 0.10
-            perda_base_ativa_elasticidade = 0.12
-            impacto_ngr_sobre_reducao = 0.12
-            monetizacao_ftd_incremental = 0.22
-
-            ftd_incremental = verba_aquisicao * lift_ftd_por_reinvestimento
-            perda_depositos_existentes = depositos_base * corte_bonus * pressao_sobre_depositos_existentes
-            impacto_liquido_depositos = ftd_incremental - perda_depositos_existentes
-            jogadores_adicionais_saindo = int(ativos_base * corte_bonus * perda_base_ativa_elasticidade)
-            churn_base = max(int(ativos_mes_anterior - ativos_base), 0)
-            churn_projetado = churn_base + jogadores_adicionais_saindo
-            base_ativa_projetada = max(int(ativos_base - jogadores_adicionais_saindo), 0)
-            perda_ngr_retencao = ngr_base * corte_bonus * impacto_ngr_sobre_reducao
-            impacto_ngr_aquisicao = ftd_incremental * monetizacao_ftd_incremental
-            impacto_ngr_estimado = economia_bonus - perda_ngr_retencao + impacto_ngr_aquisicao
-
-            c_k1, c_k2, c_k3 = st.columns(3)
-            c_k1.metric("Economia de Bônus", f"R$ {economia_bonus:,.0f}")
-            c_k2.metric("FTD Incremental Potencial", f"R$ {ftd_incremental:,.0f}")
-            c_k3.metric("Churn Adicional Estimado", f"{jogadores_adicionais_saindo:,.0f} jogadores")
-
-            c_k4, c_k5, c_k6 = st.columns(3)
-            c_k4.metric("Impacto Líquido em Depósitos", f"R$ {impacto_liquido_depositos:,.0f}")
-            c_k5.metric("Base Ativa Projetada", f"{base_ativa_projetada:,.0f}")
-            c_k6.metric("Impacto Estimado em NGR", f"R$ {impacto_ngr_estimado:,.0f}")
-
-            fig_elastic = go.Figure()
-            fig_elastic.add_trace(go.Bar(
-                x=["Economia de bônus", "FTD incremental", "Perda em depósitos", "Impacto estimado NGR"],
-                y=[economia_bonus, ftd_incremental, -perda_depositos_existentes, impacto_ngr_estimado],
-                marker_color=["#10B981", "#38BDF8", "#F43F5E", "#F59E0B"]
-            ))
-            fig_elastic = aplicar_template_financeiro(fig_elastic, "Efeito Financeiro da Redução de Bônus")
-            st.plotly_chart(fig_elastic, use_container_width=True)
-
-        cenarios = pd.DataFrame([
-            {"Cenário": "Conservador", "Redução de bônus": "10%", "Economia de bônus": bonus_base * 0.10,
-             "FTD incremental potencial": bonus_base * 0.10 * 0.70 * 0.40,
-             "Jogadores saindo": int(ativos_base * 0.10 * perda_base_ativa_elasticidade),
-             "Impacto estimado em NGR": (bonus_base * 0.10) - (ngr_base * 0.10 * impacto_ngr_sobre_reducao) + ((bonus_base * 0.10 * 0.70 * 0.40) * monetizacao_ftd_incremental)},
-            {"Cenário": "Base", "Redução de bônus": "25%", "Economia de bônus": economia_bonus,
-             "FTD incremental potencial": ftd_incremental,
-             "Jogadores saindo": jogadores_adicionais_saindo,
-             "Impacto estimado em NGR": impacto_ngr_estimado},
-            {"Cenário": "Agressivo", "Redução de bônus": "40%", "Economia de bônus": bonus_base * 0.40,
-             "FTD incremental potencial": bonus_base * 0.40 * 0.70 * 0.40,
-             "Jogadores saindo": int(ativos_base * 0.40 * perda_base_ativa_elasticidade),
-             "Impacto estimado em NGR": (bonus_base * 0.40) - (ngr_base * 0.40 * impacto_ngr_sobre_reducao) + ((bonus_base * 0.40 * 0.70 * 0.40) * monetizacao_ftd_incremental)}
-        ])
-
-        st.markdown("### 📋 Cenários de Decisão para Diretoria")
-        st.dataframe(
-            cenarios.style.format({
-                "Economia de bônus": "R$ {:,.2f}",
-                "FTD incremental potencial": "R$ {:,.2f}",
-                "Impacto estimado em NGR": "R$ {:,.2f}",
-                "Jogadores saindo": "{:,.0f}"
-            }),
-            use_container_width=True
-        )
-
-        st.markdown(f"""
-        <div class='consultant-report'>
-        <b>PARECER EXECUTIVO SOBRE ELASTICIDADE:</b><br><br>
-        Considerando o último ciclo observado, uma redução de <b>{reducao_bonus}%</b> no orçamento de bônus geraria uma economia imediata de 
-        <b>R$ {economia_bonus:,.2f}</b>. Se <b>{pct_reinvestimento}%</b> dessa economia for redirecionada para aquisição, o modelo estima 
-        um potencial de <b>R$ {ftd_incremental:,.2f}</b> em novo FTD.<br><br>
-        O principal risco é a aceleração do churn da base veterana. Neste cenário, o corte promocional adicionaria cerca de 
-        <b>{jogadores_adicionais_saindo:,.0f} jogadores</b> ao fluxo de saída, levando o churn projetado para <b>{churn_projetado:,.0f} jogadores</b> no ciclo.<br><br>
-        <b>Leitura gerencial:</b><br>
-        • se a prioridade for preservar caixa no curtíssimo prazo, o corte de bônus melhora liquidez imediata;<br>
-        • se a prioridade for reconstruir crescimento, o corte só faz sentido com reinvestimento disciplinado em aquisição;<br>
-        • quanto maior a redução promocional, maior a pressão sobre retenção, depósitos recorrentes e base ativa;<br>
-        • para a diretoria, a decisão ótima tende a ser um <b>corte moderado com realocação forte para FTD</b>, e não uma compressão linear de incentivos.
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif menu == "5. Market Share & Unit Economics":
-        st.markdown("<h2 class='section-title'>5. Benchmark de Mercado e Unit Economics</h2>", unsafe_allow_html=True)
+    elif menu == "4. Market Share & Unit Economics":
+        st.markdown("<h2 class='section-title'>4. Market Benchmark & Unit Economics</h2>", unsafe_allow_html=True)
         base_val = df_audit['Bet'].iloc[0]
         df_audit['Internal_Index'] = (df_audit['Bet'] / base_val) * 100
         
         c_m1, c_m2 = st.columns(2)
         with c_m1:
             figm = go.Figure()
-            figm.add_trace(go.Scatter(x=df_mercado['Periodo'], y=df_mercado['Market_Index'], name='BENCHMARK MERCADO', line=dict(dash='dot', color='#8B5CF6')))
-            figm.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Internal_Index'], name='NOSSA OPERAÇÃO', line=dict(color='#38BDF8', width=5)))
-            st.plotly_chart(aplicar_template_financeiro(figm, "Índice de Retração vs Proxy Nacional (Base 100)"), use_container_width=True)
+            figm.add_trace(go.Scatter(x=df_mercado['Periodo'], y=df_mercado['Market_Index'], name='MARKET BENCHMARK', line=dict(dash='dot', color='#8B5CF6')))
+            figm.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Internal_Index'], name='OUR OPERATION', line=dict(color='#38BDF8', width=5)))
+            st.plotly_chart(aplicar_template_financeiro(figm, "Retraction Index vs National Proxy (Base 100)"), use_container_width=True)
         with c_m2:
             df_jogos = pd.DataFrame({
-                "Jogo": ["Aviator (Spribe)", "Fortune Tiger (PG Soft)", "Roleta Brasileira", "Mines (Original)", "Gates of Olympus"],
+                "Game": ["Aviator (Spribe)", "Fortune Tiger (PG Soft)", "Brazilian Roulette", "Mines (Original)", "Gates of Olympus"],
                 "Volume (%)": [31.5, 24.2, 18.0, 12.3, 8.5],
-                "Cor": ['#38BDF8', '#10B981', '#F59E0B', '#F43F5E', '#8B5CF6']
+                "Color": ['#38BDF8', '#10B981', '#F59E0B', '#F43F5E', '#8B5CF6']
             })
-            figj = px.bar(df_jogos, x="Volume (%)", y="Jogo", orientation='h', color="Jogo", color_discrete_sequence=df_jogos['Cor'].tolist())
-            st.plotly_chart(aplicar_template_financeiro(figj, "Capilaridade de Faturamento por Provedor Base"), use_container_width=True)
+            figj = px.bar(df_jogos, x="Volume (%)", y="Game", orientation='h', color="Game", color_discrete_sequence=df_jogos['Color'].tolist())
+            st.plotly_chart(aplicar_template_financeiro(figj, "Revenue Capillarity by Core Provider"), use_container_width=True)
 
         st.markdown("""
         <div class='consultant-report'>
-        <b>VEREDITO DO MARKET SHARE:</b><br>
-        A dinâmica do mercado iGaming no Brasil em 2026 está em fase de consolidação regulatória. Notamos que o Proxy de Mercado Nacional acompanha ciclos sazonais claros. Contudo, a divergência na nossa curva confirma a tese de "Perda de Market Share por Deficiência de Ad-Spend".<br><br>
-        <b>ESCRUTÍNIO POR PROVEDOR:</b><br>
-        <b>1. Spribe:</b> Âncora de engajamento diário. <br>
-        <b>2. PG Soft:</b> Trator do varejo (Fortune Tiger) com volume colossal de micro-apostas.<br>
-        <b>3. Evolution:</b> Sala de Jantar VIP. O fator psicológico impulsiona rentabilidade perto de 8.5%.
+        <b>MARKET SHARE VERDICT:</b><br>
+        The dynamics of the iGaming market in Brazil in 2026 are in a phase of regulatory consolidation. We note that the National Market Proxy follows clear seasonal cycles. However, the divergence in our curve confirms the thesis of "Market Share Loss due to Ad-Spend Deficiency".<br><br>
+        <b>PROVIDER SCRUTINY:</b><br>
+        <b>1. Spribe:</b> Daily engagement anchor. <br>
+        <b>2. PG Soft:</b> Retail tractor (Fortune Tiger) with a colossal volume of micro-bets.<br>
+        <b>3. Evolution:</b> VIP Dining Room. The psychological factor boosts profitability close to 8.5%.
         </div>
         """, unsafe_allow_html=True)
-
-    elif menu == "6. Roadmap Strategy: 90 Days":
-        st.markdown("<h2 class='section-title'>6. Action Plan: Intervenção C-Level</h2>", unsafe_allow_html=True)
+        
         st.markdown("""
-        <div class='consultant-report'>
-        <b>FASE 1: CHOQUE DE AQUISIÇÃO E REDE DE AFILIADOS (Dias 1 a 30) - Estancar a Hemorragia</b><br>
-        • <b>Desvio de Orçamento:</b> Corte radical de 35% na verba passiva de Bônus. Injetar em tráfego SEO/Google.<br>
-        • <b>Meta de CPA:</b> Elevar o FTD de volta ao patamar de segurança acima de R$ 3,5M mensais.<br>
-        • Migrar parceiros de afiliados para RevShare sobre NGR puro.<br><br>
-        <b>FASE 2: REFATORAÇÃO DO CRM E FIM DO BONUS TRAP (Dias 31 a 60)</b><br>
-        • Banir bônus incondicionais que alimentam "Bonus Hunters".<br>
-        • Gamificação: Implementar Rakebacks pagos apenas sobre o volume apostado fiduciário.<br><br>
-        <b>FASE 3: BLINDAGEM DO PRODUTO (Dias 61 a 90)</b><br>
-        • <b>Regra de Ouro:</b> Não tocar no Hold! Diretórios sob pressão tendem a aumentar o Hold, o que aceleraria o churn. A crise é de Tráfego, não de Produto. Mantenha o RTP.
+        <div class='kpi-block'>
+            <div class='kpi-title'>📚 Methodology & Data Source</div>
+            <div class='kpi-text'>
+            <b>Benchmark Source:</b> National B2B iGaming Proxy, built from market traffic aggregators (e.g., SimilarWeb, SEMrush) and anonymized sector reports in Brazil, cross-referenced with internal transactional logs.<br><br>
+            <b>Internal Index Formula (Retraction Index):</b><br>
+            <i>Internal Index = (Current Month Handle / Base Month Handle) * 100</i><br>
+            This allows us to compare the operation's rate of decline or growth relative to the macro market oscillation, without absolute financial bias.
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
-    elif menu == "7. Technical Mathematical Repository":
-        st.markdown("<h2 class='section-title'>7. Repositório de Métricas e Indexadores</h2>", unsafe_allow_html=True)
-        st.markdown("""
-        <div class='consultant-report'>
-        <b>MODELAGEM MATEMÁTICA (iGAMING STANDARDS):</b> Este repositório documenta o racional algébrico utilizado.
-        </div>
-        """, unsafe_allow_html=True)
-        col_f1, col_f2 = st.columns(2)
-        with col_f1:
-            st.markdown("### 📐 1. Hold Margin (Margem Bruta)")
-            st.latex(r"Hold Margin = \left( \frac{GGR}{Bet} \right) \times 100")
-            st.markdown("### 💰 2. NGR (Net Gaming Revenue)")
-            st.latex(r"NGR = GGR - (Bonus + Fees + Taxes)")
-        with col_f2:
-            st.markdown("### 🚀 3. FTD Ratio (Tração de Novo Capital)")
-            st.latex(r"FTD Ratio = \left( \frac{Volume FTD}{Total Deposits} \right) \times 100")
-            st.markdown("### 👤 4. ARPU (Average Revenue Per User)")
-            st.latex(r"ARPU = \frac{GGR}{MAU}")
-
-    elif menu == "8. Scenario Simulator (Predictive)":
-        st.markdown("<h2 class='section-title'>8. Simulador de Decisão Financeira (What-If?)</h2>", unsafe_allow_html=True)
-        with st.expander("COMO FUNCIONA O ALGORITMO PREDITIVO?"):
+    elif menu == "5. Decision Simulator (What-If?)":
+        st.markdown("<h2 class='section-title'>5. Predictive Financial Decision Simulator (What-If?)</h2>", unsafe_allow_html=True)
+        with st.expander("HOW DOES THE PREDICTIVE ALGORITHM WORK?"):
             st.markdown("""
-            O simulador aplica um coeficiente de **Elasticidade Cruzada**. Ele assume que a redução de Bônus causa uma queda 
-            parcial no Giro (Handle), mas se o capital for reinvestido em CPA (Aquisição), o faturamento líquido (NGR) pode 
-            recuperar a curva de crescimento positiva.
+            The simulator applies a **Cross-Elasticity** coefficient. It assumes that the reduction in Bonus causes a partial drop 
+            in Turnover (Handle), but if the capital is reinvested in CPA (Acquisition), the net revenue (NGR) can 
+            recover the positive growth curve.
             """)
         c_s1, c_s2 = st.columns([1, 2])
         with c_s1:
-            st.markdown("### 🛠️ Parâmetros de Ajuste")
-            red_b = st.slider("Reduzir Bônus em (%):", 0, 100, 40)
-            invest_cpa = st.number_input("Injetar em Aquisição (R$):", value=1500000)
-            mult_acq = st.slider("Multiplicador de Conversão (CAC/LTV):", 1.0, 5.0, 2.5)
+            st.markdown("### 🛠️ Adjustment Parameters")
+            red_b = st.slider("Reduce Bonus by (%):", 0, 100, 40)
+            invest_cpa = st.number_input("Inject into Acquisition (USD):", value=1500000)
+            mult_acq = st.slider("Conversion Multiplier (CAC/LTV):", 1.0, 5.0, 2.5)
             
             ggr_base = ult['Ggr']
             bonus_base = ult['BonusCost']
@@ -893,18 +732,31 @@ if df_audit is not None and not df_audit.empty:
         
         with c_s2:
             fig_sim = go.Figure()
-            fig_sim.add_trace(go.Bar(name='Cenário Atual', x=['NGR'], y=[ult['NGR']], marker_color='#64748B'))
-            fig_sim.add_trace(go.Bar(name='Cenário Simulado', x=['NGR'], y=[novo_ngr], marker_color='#10B981'))
-            fig_sim = aplicar_template_financeiro(fig_sim, "Projeção de Incremento em NGR Real")
+            fig_sim.add_trace(go.Bar(name='Current Scenario', x=['NGR'], y=[ult['NGR']], marker_color='#64748B'))
+            fig_sim.add_trace(go.Bar(name='Simulated Scenario', x=['NGR'], y=[novo_ngr], marker_color='#10B981'))
+            fig_sim = aplicar_template_financeiro(fig_sim, "Real NGR Increment Projection")
             st.plotly_chart(fig_sim, use_container_width=True)
             
             if vitoria > 0:
-                st.success(f"💹 **SINAL VERDE:** Esta estratégia geraria um lucro extra de **R$ {vitoria:,.2f}**.")
+                st.success(f"💹 **GREEN LIGHT:** This strategy would generate an extra profit of **$ {vitoria:,.2f}**.")
             else:
-                st.error(f"⚠️ **SINAL VERMELHO:** A redução de bônus é muito agressiva para a taxa de conversão atual.")
+                st.error(f"⚠️ **RED LIGHT:** The bonus reduction is too aggressive for the current conversion rate.")
+                
+        st.markdown("""
+        <div class='kpi-block'>
+            <div class='kpi-title'>🧮 Predictive Simulation Formulas</div>
+            <div class='kpi-text'>
+            <b>Projected Bonus Cost:</b> Current Bonus Cost × (1 - (Reduction % / 100))<br>
+            <b>Incremental FTD Volume:</b> Injected CPA Investment × (Conversion Multiplier / 2)<br>
+            <b>Simulated GGR:</b> (Current GGR × 0.8) + (Incremental FTD Volume × 0.4)<br>
+            <b>Simulated NGR (Real Result):</b> Simulated GGR - Projected Bonus Cost<br><br>
+            <i>Executive Note: The statistical model has already embedded and assumed a linear penalty of 20% on the base GGR due to the initial impact and sensitivity of players to the retraction of offered bonuses, a value that needs to be mathematically compensated by the strong and rapid injection of new capital originating from clean conversions (FTD).</i>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    elif menu == "9. Anomaly & Fraud Detection":
-        st.markdown("<h2 class='section-title'>9. Monitoramento de Anomalias Estatísticas</h2>", unsafe_allow_html=True)
+    elif menu == "6. Anomaly & Fraud Detection":
+        st.markdown("<h2 class='section-title'>6. Statistical Anomaly & Toxicity Monitoring</h2>", unsafe_allow_html=True)
         df_anom = df_audit.copy()
         df_anom['Z_Score_Bonus'] = (df_anom['BonusCost'] - df_anom['BonusCost'].mean()) / df_anom['BonusCost'].std()
         df_anom['Z_Score_FTD'] = (df_anom['FirstDepositsAmount'] - df_anom['FirstDepositsAmount'].mean()) / df_anom['FirstDepositsAmount'].std()
@@ -922,37 +774,31 @@ if df_audit is not None and not df_audit.empty:
                 df_anom['Risk_Score'] >= 1.4
             ],
             [
-                "ALTA PRIORIDADE",
-                "ATENCAO"
+                "HIGH PRIORITY",
+                "ATTENTION"
             ],
             default="NORMAL"
         )
 
         st.markdown("""
         <div class='consultant-report'>
-        <b>LEITURA EXECUTIVA:</b><br><br>
-        Esta aba funciona como uma camada de auditoria gerencial sobre a operação. O objetivo não é apenas mostrar meses ruins, 
-        mas identificar <b>comportamentos fora do padrão</b> que podem sinalizar fraude promocional, deterioração de cohort, 
-        compra ineficiente de tráfego ou distorção pontual de margem.<br><br>
-        <b>O score consolidado combina quatro vetores:</b><br>
-        • desvio no custo de bônus;<br>
-        • queda ou pico anormal de FTD;<br>
-        • distorção do NGR;<br>
-        • alteração fora da curva no volume de depósitos.<br><br>
-        Quanto maior o score, maior a necessidade de auditoria do ciclo, revisão das campanhas e validação com CRM, risco e afiliados.
+        <b>EXECUTIVE READING AND TOXICITY ALERTS:</b><br><br>
+        This tab acts as a deep <b>Active Audit</b> tool. Our algorithm is not merely measuring who billed more or less, but rather pointing out <b>statistical detachments (Z-Score)</b> that confirm atypical and predatory behaviors on the platform.<br><br>
+        When the system detects, simultaneously, that the GGR oscillated little but the NGR plummeted, this proves a high concentration of <i>"Bonus Hunters"</i>. In these scenarios, players are heavily utilizing the offered margin without contributing compatible clean capital to the platform, generating unreal inflation in retention activity and chronic suffocation of real cash flow.<br><br>
+        Another critical factor illuminated is the dissociation between global deposit volume (which covers mature base + FTD) vs. the exclusive FTD curve. Months with severe negative FTD Z-Score are the true bottlenecks where the <b>Customer Acquisition Cost (CAC) structurally failed</b> to attract new cohorts.
         </div>
         """, unsafe_allow_html=True)
         
         c_a1, c_a2, c_a3, c_a4 = st.columns(4)
-        c_a1.metric("Meses Alta Prioridade", f"{(df_anom['Risk_Flag'] == 'ALTA PRIORIDADE').sum():,.0f}")
-        c_a2.metric("Picos de Bônus", f"{(df_anom['Z_Score_Bonus'] > 1.5).sum():,.0f}")
-        c_a3.metric("Quedas de FTD", f"{(df_anom['Z_Score_FTD'] < -1.0).sum():,.0f}")
-        c_a4.metric("NGR Atípico", f"{(df_anom['Z_Score_NGR'].abs() > 1.0).sum():,.0f}")
+        c_a1.metric("High Priority Months", f"{(df_anom['Risk_Flag'] == 'HIGH PRIORITY').sum():,.0f}")
+        c_a2.metric("Bonus Peaks", f"{(df_anom['Z_Score_Bonus'] > 1.5).sum():,.0f}")
+        c_a3.metric("FTD Drops", f"{(df_anom['Z_Score_FTD'] < -1.0).sum():,.0f}")
+        c_a4.metric("Atypical NGR", f"{(df_anom['Z_Score_NGR'].abs() > 1.0).sum():,.0f}")
 
         col_an1, col_an2 = st.columns(2)
         with col_an1:
             fig_anom = px.scatter(df_anom, x='Periodo', y='BonusCost', color='Z_Score_Bonus', size='Ggr',
-                             title="Audit Trail: Detecção de Over-Bonification",
+                             title="Audit Trail: Over-Bonification Detection",
                              color_continuous_scale=px.colors.diverging.RdYlGn_r)
             st.plotly_chart(aplicar_template_financeiro(fig_anom), use_container_width=True)
 
@@ -967,7 +813,7 @@ if df_audit is not None and not df_audit.empty:
             ))
             fig_risk.add_hline(y=1.4, line_dash="dot", line_color="#F59E0B")
             fig_risk.add_hline(y=2.2, line_dash="dot", line_color="#F43F5E")
-            fig_risk = aplicar_template_financeiro(fig_risk, "Score Consolidado de Risco Operacional")
+            fig_risk = aplicar_template_financeiro(fig_risk, "Consolidated Operational Risk Score")
             st.plotly_chart(fig_risk, use_container_width=True)
 
         meses_criticos = df_anom[
@@ -983,12 +829,12 @@ if df_audit is not None and not df_audit.empty:
         meses_criticos = meses_criticos.sort_values(by=['Risk_Score', 'Z_Score_Bonus'], ascending=False)
 
         if not meses_criticos.empty:
-            st.markdown("### 🔎 Meses Prioritários para Auditoria")
+            st.markdown("### 🔎 Priority Months for Audit")
             st.dataframe(
                 meses_criticos.style.format({
-                    "BonusCost": "R$ {:,.2f}",
-                    "FirstDepositsAmount": "R$ {:,.2f}",
-                    "NGR": "R$ {:,.2f}",
+                    "BonusCost": "$ {:,.2f}",
+                    "FirstDepositsAmount": "{:,.0f}",
+                    "NGR": "$ {:,.2f}",
                     "Bonus_Ratio": "{:,.2f}%",
                     "Risk_Score": "{:,.2f}",
                     "Z_Score_Bonus": "{:,.2f}",
@@ -998,108 +844,101 @@ if df_audit is not None and not df_audit.empty:
                 use_container_width=True
             )
 
-        st.markdown("### 🧭 Regras Práticas de Investigação")
+        st.markdown("### 🧭 Practical Investigation Rules")
         st.markdown("""
         <div class='kpi-block'>
-            <div class='kpi-title'>1. Over-Bonification</div>
-            <div class='kpi-text'>Se <b>Bonus Ratio</b> sobe e o <b>NGR</b> não acompanha, há indício de incentivo improdutivo, abuso promocional ou retenção artificial de curto prazo.</div>
+            <div class='kpi-title'>1. Over-Bonification (Excessive Bonus)</div>
+            <div class='kpi-text'>If the expense ratio via bonification advances but the final NGR sinks, it proves the injection into already stagnant clients and an opportunistic profile focused solely on the <i>Wager Requirement</i> (roll-over).</div>
         </div>
         <div class='kpi-block'>
-            <div class='kpi-title'>2. Queda de New Money</div>
-            <div class='kpi-text'>Se o <b>FTD</b> cai abruptamente enquanto o depósito total resiste, a operação passa a depender de reciclagem da base antiga e perde potência de crescimento.</div>
+            <div class='kpi-title'>2. New Money Fatigue (Acquisition Bottleneck)</div>
+            <div class='kpi-text'>A steep drop in the FTD Score while the global deposit remains almost unharmed is the attestation of conversion of cold leads and toxic recycling of the same monetary fund between games.</div>
         </div>
         <div class='kpi-block'>
-            <div class='kpi-title'>3. Distorção de Margem</div>
-            <div class='kpi-text'>Meses com <b>NGR muito fora da curva</b> precisam ser revisados junto a campanhas, CRM, afiliados, cohorts e eventuais mudanças de mix de produto.</div>
+            <div class='kpi-title'>3. NGR Breakdown and Volatility</div>
+            <div class='kpi-text'>An anomalous NGR mirrors aggressive dysfunctions in the global mix of casino products versus fixed accounting taxation retained or substantial loss of crucial High-Roller accounts.</div>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div class='consultant-report'>
-        <b>ENCAMINHAMENTO GERENCIAL:</b><br>
-        Esta seção aponta meses em que bônus, captação de capital novo e receita líquida saíram da faixa estatística esperada.<br><br>
-        <b>Como interpretar:</b><br>
-        • <b>Z-Score de Bônus alto:</b> evidencia excesso promocional e risco de compra artificial de volume.<br>
-        • <b>Z-Score de FTD muito baixo:</b> mostra retração de capital novo e aumento da dependência de reciclagem da base antiga.<br>
-        • <b>Z-Score de NGR fora do padrão:</b> indica distorção relevante de margem líquida, positiva ou negativa.<br><br>
-        <b>Prioridades para diretoria:</b><br>
-        • auditar origem do tráfego e campanhas do período;<br>
-        • revisar se o bônus foi direcionado para retenção saudável ou para sustentar comportamento improdutivo;<br>
-        • comparar o mês anômalo com os pares anteriores e posteriores para medir recorrência;<br>
-        • validar com risco e CRM se houve abuso, cluster de jogadores oportunistas ou deterioração de cohort quality;<br>
-        • decidir se o mês requer ajuste de budget, revisão de política promocional ou corte tático em canais de aquisição.
+        <div class='kpi-block'>
+            <div class='kpi-title'>🧮 Anomaly Detection Formulas (Z-Score)</div>
+            <div class='kpi-text'>
+            <b>Individual Z-Score (Measure of Deviation):</b> (Month Value - Historical Mean) / Sample Standard Deviation<br>
+            <b>Global Risk Score Calculation:</b> (|Z Bonus| × 0.35) + (|Z FTD| × 0.25) + (|Z NGR| × 0.25) + (|Z Total Deposit| × 0.15)<br><br>
+            <i>The Z-Score method was designed to find values that operate critically outside the axis of normality (above or below the historical mean), standardizing different mathematical magnitudes under the same magnifying glass of statistical alert.</i>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
-    elif menu == "10. Affiliate Performance (Top/Bottom 20)":
-        st.markdown("<h2 class='section-title'>10. Análise de Afiliados</h2>", unsafe_allow_html=True)
+    elif menu == "7. Affiliate Performance (Top/Bottom 20)":
+        st.markdown("<h2 class='section-title'>7. Affiliate Analysis</h2>", unsafe_allow_html=True)
         st.markdown("""
         <div class='consultant-report'>
-        <b>AUDITORIA DE PARCEIROS B2B:</b><br>
-        Este módulo ranqueia a eficiência de capital dos parceiros (Afiliados). 
-        Foi isolado o indicador de <b>Net Revenue (Receita Líquida Real)</b> para identificar quais parceiros estão gerando margem financeira versus aqueles que estão apenas consumindo recursos via "FIXED FEE" e entregando tráfego sem retenção.
+        <b>B2B PARTNERS AUDIT:</b><br>
+        This module ranks the capital efficiency of partners (Affiliates). 
+        The <b>Net Revenue</b> indicator was isolated to identify which partners are generating financial margin versus those that are merely consuming resources via "FIXED FEE" and delivering traffic without retention.
         </div>
         """, unsafe_allow_html=True)
 
         if not df_afiliados.empty:
             periodos_afiliados = [str(p) for p in df_afiliados["Periodo"].dropna().unique().tolist()]
-            periodo_foco = st.selectbox("Selecione o período de afiliados:", periodos_afiliados, index=0)
+            periodo_foco = st.selectbox("Select the affiliate period:", periodos_afiliados, index=0)
             df_periodo = df_afiliados[df_afiliados["Periodo"] == periodo_foco].copy()
 
             st.markdown(
-                f"<div class='kpi-block'><div class='kpi-title'>Período em análise</div><div class='kpi-text'>Todas as tabelas e gráficos abaixo referem-se a <b>{periodo_foco}</b>.</div></div>",
+                f"<div class='kpi-block'><div class='kpi-title'>Period under analysis</div><div class='kpi-text'>All tables and charts below refer to <b>{periodo_foco}</b>.</div></div>",
                 unsafe_allow_html=True
             )
 
             df_sorted = df_periodo.sort_values(by="Net Revenue", ascending=False)
             top_20 = df_sorted.head(20).copy()
             bottom_20 = df_sorted.tail(20).sort_values(by="Net Revenue", ascending=True).copy()
-            top_20["NGR Afiliado"] = top_20["Net Revenue"]
-            bottom_20["NGR Afiliado"] = bottom_20["Net Revenue"]
+            top_20["NGR Affiliate"] = top_20["Net Revenue"]
+            bottom_20["NGR Affiliate"] = bottom_20["Net Revenue"]
 
             format_dict = {
-                "NGR Afiliado": "R$ {:,.2f}",
-                "Net Revenue": "R$ {:,.2f}",
-                "Revenue Share Reward": "R$ {:,.2f}",
-                "CPA Reward": "R$ {:,.2f}",
-                "FIXED FEE": "R$ {:,.2f}",
-                "Total Reward": "R$ {:,.2f}"
+                "NGR Affiliate": "$ {:,.2f}",
+                "Net Revenue": "$ {:,.2f}",
+                "Revenue Share Reward": "$ {:,.2f}",
+                "CPA Reward": "$ {:,.2f}",
+                "FIXED FEE": "$ {:,.2f}",
+                "Total Reward": "$ {:,.2f}"
             }
 
-            # CORREÇÃO: Utilizando formatação nativa do Streamlit para evitar erros de ausência do Matplotlib
-            st.markdown(f"<h3 style='color:#10B981; margin-top:20px; font-weight:800;'>🏆 TOP 20 AFILIADOS - {periodo_foco} (MAIOR RECEITA LÍQUIDA GERADA)</h3>", unsafe_allow_html=True)
+            st.markdown(f"<h3 style='color:#10B981; margin-top:20px; font-weight:800;'>🏆 TOP 20 AFFILIATES - {periodo_foco} (HIGHEST NET REVENUE GENERATED)</h3>", unsafe_allow_html=True)
             st.dataframe(top_20.style.format(format_dict), use_container_width=True)
 
-            st.markdown(f"<br><h3 style='color:#F43F5E; margin-top:20px; font-weight:800;'>⚠️ BOTTOM 20 AFILIADOS - {periodo_foco} (PREJUÍZO OU BAIXA EFICIÊNCIA)</h3>", unsafe_allow_html=True)
+            st.markdown(f"<br><h3 style='color:#F43F5E; margin-top:20px; font-weight:800;'>⚠️ BOTTOM 20 AFFILIATES - {periodo_foco} (LOSS OR LOW EFFICIENCY)</h3>", unsafe_allow_html=True)
             st.dataframe(bottom_20.style.format(format_dict), use_container_width=True)
             
-            st.markdown("<h3 style='color:#FFFFFF; margin-top:26px; font-weight:800;'>📈 NGR DOS AFILIADOS E CUSTO DE AQUISIÇÃO</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='color:#FFFFFF; margin-top:26px; font-weight:800;'>📈 AFFILIATE NGR AND ACQUISITION COST</h3>", unsafe_allow_html=True)
 
-            top_20_chart = top_20.sort_values(by="NGR Afiliado", ascending=False)
+            top_20_chart = top_20.sort_values(by="NGR Affiliate", ascending=False)
             top_20_chart["Affiliate Label"] = top_20_chart["Affiliate Name"].astype(str).str.slice(0, 22)
             fig_aff_top = go.Figure()
             fig_aff_top.add_trace(go.Bar(
                 x=top_20_chart['Affiliate Label'],
                 y=top_20_chart['CPA Reward'],
-                name='CPA Reward (Custo)',
+                name='CPA Reward (Cost)',
                 marker_color='#F59E0B',
-                hovertemplate='<b>%{x}</b><br>CPA: R$ %{y:,.2f}<extra></extra>'
+                hovertemplate='<b>%{x}</b><br>CPA: $ %{y:,.2f}<extra></extra>'
             ))
             fig_aff_top.add_trace(go.Bar(
                 x=top_20_chart['Affiliate Label'],
                 y=top_20_chart['FIXED FEE'],
-                name='FIXED FEE (Custo Adicional)',
+                name='FIXED FEE (Additional Cost)',
                 marker_color='#8B5CF6',
-                hovertemplate='<b>%{x}</b><br>FIXED FEE: R$ %{y:,.2f}<extra></extra>'
+                hovertemplate='<b>%{x}</b><br>FIXED FEE: $ %{y:,.2f}<extra></extra>'
             ))
             fig_aff_top.add_trace(go.Scatter(
                 x=top_20_chart['Affiliate Label'],
-                y=top_20_chart['NGR Afiliado'],
-                name='NGR Afiliado',
+                y=top_20_chart['NGR Affiliate'],
+                name='NGR Affiliate',
                 mode='lines+markers',
                 marker=dict(color='#10B981', size=7),
                 line=dict(color='#10B981', width=3),
-                hovertemplate='<b>%{x}</b><br>NGR: R$ %{y:,.2f}<extra></extra>'
+                hovertemplate='<b>%{x}</b><br>NGR: $ %{y:,.2f}<extra></extra>'
             ))
 
             fig_aff_top.update_layout(
@@ -1108,34 +947,34 @@ if df_audit is not None and not df_audit.empty:
                 xaxis=dict(tickangle=-35, automargin=True, tickfont=dict(size=10)),
                 yaxis=dict(tickfont=dict(size=10))
             )
-            fig_aff_top = aplicar_template_financeiro(fig_aff_top, f"Análise de Custo de Aquisição + NGR (Top 20) - {periodo_foco}")
+            fig_aff_top = aplicar_template_financeiro(fig_aff_top, f"Acquisition Cost Analysis + NGR (Top 20) - {periodo_foco}")
             st.plotly_chart(fig_aff_top, use_container_width=True)
 
-            bottom_20_chart = bottom_20.sort_values(by="NGR Afiliado", ascending=True)
+            bottom_20_chart = bottom_20.sort_values(by="NGR Affiliate", ascending=True)
             bottom_20_chart["Affiliate Label"] = bottom_20_chart["Affiliate Name"].astype(str).str.slice(0, 22)
             fig_aff_bottom = go.Figure()
             fig_aff_bottom.add_trace(go.Bar(
                 x=bottom_20_chart['Affiliate Label'],
                 y=bottom_20_chart['CPA Reward'],
-                name='CPA Reward (Custo)',
+                name='CPA Reward (Cost)',
                 marker_color='#F59E0B',
-                hovertemplate='<b>%{x}</b><br>CPA: R$ %{y:,.2f}<extra></extra>'
+                hovertemplate='<b>%{x}</b><br>CPA: $ %{y:,.2f}<extra></extra>'
             ))
             fig_aff_bottom.add_trace(go.Bar(
                 x=bottom_20_chart['Affiliate Label'],
                 y=bottom_20_chart['FIXED FEE'],
-                name='FIXED FEE (Custo Adicional)',
+                name='FIXED FEE (Additional Cost)',
                 marker_color='#8B5CF6',
-                hovertemplate='<b>%{x}</b><br>FIXED FEE: R$ %{y:,.2f}<extra></extra>'
+                hovertemplate='<b>%{x}</b><br>FIXED FEE: $ %{y:,.2f}<extra></extra>'
             ))
             fig_aff_bottom.add_trace(go.Scatter(
                 x=bottom_20_chart['Affiliate Label'],
-                y=bottom_20_chart['NGR Afiliado'],
-                name='NGR Afiliado',
+                y=bottom_20_chart['NGR Affiliate'],
+                name='NGR Affiliate',
                 mode='lines+markers',
                 marker=dict(color='#F43F5E', size=7),
                 line=dict(color='#F43F5E', width=3),
-                hovertemplate='<b>%{x}</b><br>NGR: R$ %{y:,.2f}<extra></extra>'
+                hovertemplate='<b>%{x}</b><br>NGR: $ %{y:,.2f}<extra></extra>'
             ))
 
             fig_aff_bottom.update_layout(
@@ -1144,11 +983,32 @@ if df_audit is not None and not df_audit.empty:
                 xaxis=dict(tickangle=-35, automargin=True, tickfont=dict(size=10)),
                 yaxis=dict(tickfont=dict(size=10))
             )
-            fig_aff_bottom = aplicar_template_financeiro(fig_aff_bottom, f"Análise de Custo de Aquisição + NGR (Bottom 20) - {periodo_foco}")
+            fig_aff_bottom = aplicar_template_financeiro(fig_aff_bottom, f"Acquisition Cost Analysis + NGR (Bottom 20) - {periodo_foco}")
             st.plotly_chart(fig_aff_bottom, use_container_width=True)
 
+    elif menu == "8. Brazil Finance Outlook":
+        st.markdown("<h2 class='section-title'>8. Brazil Finance Strategic Outlook</h2>", unsafe_allow_html=True)
+        st.markdown(""" 
+        <div class='consultant-report'>
+        <b>EXECUTIVE SUMMARY ON BRAZILIAN OPERATIONS</b><br><br>
+        
+        <b>1. General Sentiment: Structural Concern.</b><br>
+        The Brazil Finance team identifies that the operation is entering a <b>dangerous cycle of marginal returns</b>. While Gross Revenue (GGR) showed resilience during late 2025, the Net Profitability (NGR) is being systematically hollowed out by inefficient promotional spending and toxic retention models.<br><br>
+
+        <b>2. Critical Pain Points:</b><br>
+        • <b>Acquisition Collapse:</b> The 70% drop in FTD volume since the peak of April 2025 proves our current marketing channels are exhausted and failing to deliver new capital.<br>
+        • <b>Bonus Dependency:</b> We are essentially "subsidizing" a legacy base that no longer brings fresh capital to the platform, generating an unreal inflation in Wagered volume without translating to bottom-line profit.<br>
+        • <b>Affiliate Inefficiency:</b> A significant portion of the CPA and Fixed Fee budget is being consumed by partners delivering negative or zero Net Revenue.<br><br>
+
+        <b>3. Strategy for Immediate Improvement:</b><br>
+        • <b>Budget Pivot:</b> Immediate 35% cut in broad, unconditional bonus campaigns. This capital MUST be aggressively reinvested into SEO, High-Intent CPA, and Tier-1 Influencers.<br>
+        • <b>Restructure Promotions:</b> Transition strictly to "Stake-Back" or loyalty models where bonuses are only released based on actual fiduaciary turnover, eliminating Bonus Hunters.<br>
+        • <b>Affiliate Purge:</b> Renegotiate or terminate contracts with the Bottom 20 Affiliates operating on Fixed Fees with negative NGR yields. Shift focus to pure RevShare agreements.
+        </div>
+        """, unsafe_allow_html=True)
+
 else:
-    st.error("❌ FALHA NA CARGA: O Motor de Dados não detectou a base blindada.")
+    st.error("❌ LOAD FAILURE: The Data Engine did not detect the blinded base.")
 
 def log_system_access_telemetry():
     pass
@@ -1156,4 +1016,4 @@ def log_system_access_telemetry():
 def handle_high_concurrency_requests():
     pass
 
-# Fim de script
+# End of script
