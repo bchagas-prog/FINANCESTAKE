@@ -504,10 +504,8 @@ if df_audit is not None and not df_audit.empty:
         "2. Macro-Trends & Dynamic Analytics",
         "3. Operational Deep-Dive (Monthly)",
         "4. Market Share & Unit Economics",
-        "5. Decision Simulator (What-If?)",
-        "6. Anomaly & Fraud Detection",
-        "7. Affiliate Performance (Top/Bottom 20)",
-        "8. Brazil Finance Outlook"
+        "5. Affiliate Performance (Top/Bottom 20)",
+        "6. Brazil Finance Outlook"
     ])
     
     st.sidebar.markdown("<hr style='border-top: 1px dashed #334155;'>", unsafe_allow_html=True)
@@ -707,172 +705,8 @@ if df_audit is not None and not df_audit.empty:
         </div>
         """, unsafe_allow_html=True)
 
-    elif menu == "5. Decision Simulator (What-If?)":
-        st.markdown("<h2 class='section-title'>5. Predictive Financial Decision Simulator (What-If?)</h2>", unsafe_allow_html=True)
-        with st.expander("HOW DOES THE PREDICTIVE ALGORITHM WORK?"):
-            st.markdown("""
-            The simulator applies a **Cross-Elasticity** coefficient. It assumes that the reduction in Bonus causes a partial drop 
-            in Turnover (Handle), but if the capital is reinvested in CPA (Acquisition), the net revenue (NGR) can 
-            recover the positive growth curve.
-            """)
-        c_s1, c_s2 = st.columns([1, 2])
-        with c_s1:
-            st.markdown("### 🛠️ Adjustment Parameters")
-            red_b = st.slider("Reduce Bonus by (%):", 0, 100, 40)
-            invest_cpa = st.number_input("Inject into Acquisition (USD):", value=1500000)
-            mult_acq = st.slider("Conversion Multiplier (CAC/LTV):", 1.0, 5.0, 2.5)
-            
-            ggr_base = ult['Ggr']
-            bonus_base = ult['BonusCost']
-            novo_bonus = bonus_base * (1 - red_b/100)
-            novo_ftd = invest_cpa * (mult_acq / 2)
-            novo_ggr = (ggr_base * 0.8) + (novo_ftd * 0.4) 
-            novo_ngr = novo_ggr - novo_bonus
-            vitoria = novo_ngr - ult['NGR']
-        
-        with c_s2:
-            fig_sim = go.Figure()
-            fig_sim.add_trace(go.Bar(name='Current Scenario', x=['NGR'], y=[ult['NGR']], marker_color='#64748B'))
-            fig_sim.add_trace(go.Bar(name='Simulated Scenario', x=['NGR'], y=[novo_ngr], marker_color='#10B981'))
-            fig_sim = aplicar_template_financeiro(fig_sim, "Real NGR Increment Projection")
-            st.plotly_chart(fig_sim, use_container_width=True)
-            
-            if vitoria > 0:
-                st.success(f"💹 **GREEN LIGHT:** This strategy would generate an extra profit of **$ {vitoria:,.2f}**.")
-            else:
-                st.error(f"⚠️ **RED LIGHT:** The bonus reduction is too aggressive for the current conversion rate.")
-                
-        st.markdown("""
-        <div class='kpi-block'>
-            <div class='kpi-title'>🧮 Predictive Simulation Formulas</div>
-            <div class='kpi-text'>
-            <b>Projected Bonus Cost:</b> Current Bonus Cost × (1 - (Reduction % / 100))<br>
-            <b>Incremental FTD Volume:</b> Injected CPA Investment × (Conversion Multiplier / 2)<br>
-            <b>Simulated GGR:</b> (Current GGR × 0.8) + (Incremental FTD Volume × 0.4)<br>
-            <b>Simulated NGR (Real Result):</b> Simulated GGR - Projected Bonus Cost<br><br>
-            <i>Executive Note: The statistical model has already embedded and assumed a linear penalty of 20% on the base GGR due to the initial impact and sensitivity of players to the retraction of offered bonuses, a value that needs to be mathematically compensated by the strong and rapid injection of new capital originating from clean conversions (FTD).</i>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif menu == "6. Anomaly & Fraud Detection":
-        st.markdown("<h2 class='section-title'>6. Statistical Anomaly & Toxicity Monitoring</h2>", unsafe_allow_html=True)
-        df_anom = df_audit.copy()
-        df_anom['Z_Score_Bonus'] = (df_anom['BonusCost'] - df_anom['BonusCost'].mean()) / df_anom['BonusCost'].std()
-        df_anom['Z_Score_FTD'] = (df_anom['FirstDepositsAmount'] - df_anom['FirstDepositsAmount'].mean()) / df_anom['FirstDepositsAmount'].std()
-        df_anom['Z_Score_NGR'] = (df_anom['NGR'] - df_anom['NGR'].mean()) / df_anom['NGR'].std()
-        df_anom['Z_Score_Deposit'] = (df_anom['DepositAmount'] - df_anom['DepositAmount'].mean()) / df_anom['DepositAmount'].std()
-        df_anom['Risk_Score'] = (
-            df_anom['Z_Score_Bonus'].abs() * 0.35 +
-            df_anom['Z_Score_FTD'].abs() * 0.25 +
-            df_anom['Z_Score_NGR'].abs() * 0.25 +
-            df_anom['Z_Score_Deposit'].abs() * 0.15
-        ).round(2)
-        df_anom['Risk_Flag'] = np.select(
-            [
-                df_anom['Risk_Score'] >= 2.2,
-                df_anom['Risk_Score'] >= 1.4
-            ],
-            [
-                "HIGH PRIORITY",
-                "ATTENTION"
-            ],
-            default="NORMAL"
-        )
-
-        st.markdown("""
-        <div class='consultant-report'>
-        <b>EXECUTIVE READING AND TOXICITY ALERTS:</b><br><br>
-        This tab acts as a deep <b>Active Audit</b> tool. Our algorithm is not merely measuring who billed more or less, but rather pointing out <b>statistical detachments (Z-Score)</b> that confirm atypical and predatory behaviors on the platform.<br><br>
-        When the system detects, simultaneously, that the GGR oscillated little but the NGR plummeted, this proves a high concentration of <i>"Bonus Hunters"</i>. In these scenarios, players are heavily utilizing the offered margin without contributing compatible clean capital to the platform, generating unreal inflation in retention activity and chronic suffocation of real cash flow.<br><br>
-        Another critical factor illuminated is the dissociation between global deposit volume (which covers mature base + FTD) vs. the exclusive FTD curve. Months with severe negative FTD Z-Score are the true bottlenecks where the <b>Customer Acquisition Cost (CAC) structurally failed</b> to attract new cohorts.
-        </div>
-        """, unsafe_allow_html=True)
-        
-        c_a1, c_a2, c_a3, c_a4 = st.columns(4)
-        c_a1.metric("High Priority Months", f"{(df_anom['Risk_Flag'] == 'HIGH PRIORITY').sum():,.0f}")
-        c_a2.metric("Bonus Peaks", f"{(df_anom['Z_Score_Bonus'] > 1.5).sum():,.0f}")
-        c_a3.metric("FTD Drops", f"{(df_anom['Z_Score_FTD'] < -1.0).sum():,.0f}")
-        c_a4.metric("Atypical NGR", f"{(df_anom['Z_Score_NGR'].abs() > 1.0).sum():,.0f}")
-
-        col_an1, col_an2 = st.columns(2)
-        with col_an1:
-            fig_anom = px.scatter(df_anom, x='Periodo', y='BonusCost', color='Z_Score_Bonus', size='Ggr',
-                             title="Audit Trail: Over-Bonification Detection",
-                             color_continuous_scale=px.colors.diverging.RdYlGn_r)
-            st.plotly_chart(aplicar_template_financeiro(fig_anom), use_container_width=True)
-
-        with col_an2:
-            fig_risk = go.Figure()
-            fig_risk.add_trace(go.Bar(
-                x=df_anom['Periodo'],
-                y=df_anom['Risk_Score'],
-                marker_color=np.where(df_anom['Risk_Score'] >= 2.2, '#F43F5E',
-                                      np.where(df_anom['Risk_Score'] >= 1.4, '#F59E0B', '#10B981')),
-                name="Risk Score"
-            ))
-            fig_risk.add_hline(y=1.4, line_dash="dot", line_color="#F59E0B")
-            fig_risk.add_hline(y=2.2, line_dash="dot", line_color="#F43F5E")
-            fig_risk = aplicar_template_financeiro(fig_risk, "Consolidated Operational Risk Score")
-            st.plotly_chart(fig_risk, use_container_width=True)
-
-        meses_criticos = df_anom[
-            (df_anom['Risk_Score'] >= 1.4) |
-            (df_anom['Z_Score_Bonus'].abs() > 1.5) |
-            (df_anom['Z_Score_FTD'].abs() > 1.0) |
-            (df_anom['Z_Score_NGR'].abs() > 1.0)
-        ][[
-            'Periodo', 'BonusCost', 'FirstDepositsAmount', 'NGR',
-            'Bonus_Ratio', 'Risk_Score', 'Risk_Flag',
-            'Z_Score_Bonus', 'Z_Score_FTD', 'Z_Score_NGR'
-        ]].copy()
-        meses_criticos = meses_criticos.sort_values(by=['Risk_Score', 'Z_Score_Bonus'], ascending=False)
-
-        if not meses_criticos.empty:
-            st.markdown("### 🔎 Priority Months for Audit")
-            st.dataframe(
-                meses_criticos.style.format({
-                    "BonusCost": "$ {:,.2f}",
-                    "FirstDepositsAmount": "{:,.0f}",
-                    "NGR": "$ {:,.2f}",
-                    "Bonus_Ratio": "{:,.2f}%",
-                    "Risk_Score": "{:,.2f}",
-                    "Z_Score_Bonus": "{:,.2f}",
-                    "Z_Score_FTD": "{:,.2f}",
-                    "Z_Score_NGR": "{:,.2f}"
-                }),
-                use_container_width=True
-            )
-
-        st.markdown("### 🧭 Practical Investigation Rules")
-        st.markdown("""
-        <div class='kpi-block'>
-            <div class='kpi-title'>1. Over-Bonification (Excessive Bonus)</div>
-            <div class='kpi-text'>If the expense ratio via bonification advances but the final NGR sinks, it proves the injection into already stagnant clients and an opportunistic profile focused solely on the <i>Wager Requirement</i> (roll-over).</div>
-        </div>
-        <div class='kpi-block'>
-            <div class='kpi-title'>2. New Money Fatigue (Acquisition Bottleneck)</div>
-            <div class='kpi-text'>A steep drop in the FTD Score while the global deposit remains almost unharmed is the attestation of conversion of cold leads and toxic recycling of the same monetary fund between games.</div>
-        </div>
-        <div class='kpi-block'>
-            <div class='kpi-title'>3. NGR Breakdown and Volatility</div>
-            <div class='kpi-text'>An anomalous NGR mirrors aggressive dysfunctions in the global mix of casino products versus fixed accounting taxation retained or substantial loss of crucial High-Roller accounts.</div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div class='kpi-block'>
-            <div class='kpi-title'>🧮 Anomaly Detection Formulas (Z-Score)</div>
-            <div class='kpi-text'>
-            <b>Individual Z-Score (Measure of Deviation):</b> (Month Value - Historical Mean) / Sample Standard Deviation<br>
-            <b>Global Risk Score Calculation:</b> (|Z Bonus| × 0.35) + (|Z FTD| × 0.25) + (|Z NGR| × 0.25) + (|Z Total Deposit| × 0.15)<br><br>
-            <i>The Z-Score method was designed to find values that operate critically outside the axis of normality (above or below the historical mean), standardizing different mathematical magnitudes under the same magnifying glass of statistical alert.</i>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    elif menu == "7. Affiliate Performance (Top/Bottom 20)":
-        st.markdown("<h2 class='section-title'>7. Affiliate Analysis</h2>", unsafe_allow_html=True)
+    elif menu == "5. Affiliate Performance (Top/Bottom 20)":
+        st.markdown("<h2 class='section-title'>5. Affiliate Analysis</h2>", unsafe_allow_html=True)
         st.markdown("""
         <div class='consultant-report'>
         <b>B2B PARTNERS AUDIT:</b><br>
@@ -986,8 +820,8 @@ if df_audit is not None and not df_audit.empty:
             fig_aff_bottom = aplicar_template_financeiro(fig_aff_bottom, f"Acquisition Cost Analysis + NGR (Bottom 20) - {periodo_foco}")
             st.plotly_chart(fig_aff_bottom, use_container_width=True)
 
-    elif menu == "8. Brazil Finance Outlook":
-        st.markdown("<h2 class='section-title'>8. Brazil Finance Strategic Outlook</h2>", unsafe_allow_html=True)
+    elif menu == "6. Brazil Finance Outlook":
+        st.markdown("<h2 class='section-title'>6. Brazil Finance Strategic Outlook</h2>", unsafe_allow_html=True)
         st.markdown(""" 
         <div class='consultant-report'>
         <b>EXECUTIVE SUMMARY ON BRAZILIAN OPERATIONS</b><br><br>
@@ -1002,7 +836,7 @@ if df_audit is not None and not df_audit.empty:
 
         <b>3. Strategy for Immediate Improvement:</b><br>
         • <b>Budget Pivot:</b> Immediate 35% cut in broad, unconditional bonus campaigns. This capital MUST be aggressively reinvested into SEO, High-Intent CPA, and Tier-1 Influencers.<br>
-        • <b>Restructure Promotions:</b> Transition strictly to "Stake-Back" or loyalty models where bonuses are only released based on actual fiduaciary turnover, eliminating Bonus Hunters.<br>
+        • <b>Restructure Promotions:</b> Transition strictly to "Stake-Back" or loyalty models where bonuses are only released based on actual fiduciary turnover, eliminating Bonus Hunters.<br>
         • <b>Affiliate Purge:</b> Renegotiate or terminate contracts with the Bottom 20 Affiliates operating on Fixed Fees with negative NGR yields. Shift focus to pure RevShare agreements.
         </div>
         """, unsafe_allow_html=True)
