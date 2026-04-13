@@ -9,7 +9,7 @@ import datetime
 import time
 
 st.title("Finance Stake")
-st.write("Stake 🚀")
+st.write("Stake Brazil LTDA")
 
 # ==============================================================================
 # 1. UI ARCHITECTURE AND EXECUTIVE DESIGN (C-LEVEL DASHBOARD)
@@ -551,7 +551,7 @@ if df_audit is not None and not df_audit.empty:
         c_g1, c_g2 = st.columns(2)
         with c_g1:
             fig_1 = make_subplots(specs=[[{"secondary_y": True}]])
-            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='HANDLE (LIQUIDITY)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5 )), secondary_y=False)
+            fig_1.add_trace(go.Scatter(x=df_audit['Periodo'], y=df_audit['Bet'], name='HANDLE (TURNOVER)', mode='lines+markers+text', line=dict(color='#38BDF8', width=5 )), secondary_y=False)
             fig_1.add_trace(go.Bar(x=df_audit['Periodo'], y=df_audit['Ggr'], name='GGR (GROSS REVENUE)', marker_color='#10B981', opacity=0.9, width=0.6), secondary_y=True)
             fig_1 = aplicar_template_financeiro(fig_1, "Historical Evolution: Volume vs Gross Revenue")
             fig_1.update_yaxes(title_text="<b>HANDLE (Left Side)</b>", color="#FFFFFF", secondary_y=False)
